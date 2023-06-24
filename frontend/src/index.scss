@@ -1,0 +1,214 @@
+@import "../node_modules/breakpoint-sass/stylesheets/breakpoint";
+
+@mixin reset {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin flex-center-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin mr-auto {
+  margin-right: auto;
+}
+@mixin ml-auto {
+  margin-left: auto;
+}
+@mixin mt-auto {
+  margin-top: auto;
+}
+@mixin mb-auto {
+  margin-bottom: auto;
+}
+
+.mr-auto {
+  @include mr-auto;
+}
+.ml-auto {
+  @include ml-auto;
+}
+.mt-auto {
+  @include mt-auto;
+}
+.mb-auto {
+  @include mb-auto;
+}
+
+.mx-auto {
+  @include mr-auto;
+  @include ml-auto;
+}
+
+.my-auto {
+  @include mt-auto;
+  @include mb-auto;
+}
+
+@mixin scrollbars(
+  $size,
+  $foreground-color,
+  $background-color: mix($foreground-color, white, 50%),
+  $border-radius: 0px
+) {
+  // For Google Chrome
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+    border-radius: $border-radius;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+
+  // For Internet Explorer
+  & {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+}
+
+.untouch {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html {
+  width: 100vw;
+  height: 100vh;
+
+  @include reset;
+
+  overflow: hidden;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+.bg-gray {
+  background: #1c1d1d;
+}
+
+.threads {
+  display: flex;
+
+  margin-top: 30px;
+
+  cursor: pointer;
+}
+
+span {
+  margin-left: 13px;
+
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  color: #b5b5b5;
+}
+
+.server-content {
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  opacity: 1;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  .content-body {
+    height: 100%;
+  }
+
+  .content-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 64px;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .channel-name {
+      font-family: "Lato";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 24px;
+
+      color: #000000;
+    }
+
+    .channel-messages {
+      font-family: Roboto;
+      font-style: normal;
+      font-size: 14px;
+
+      color: gray;
+    }
+  }
+}
+
+.message-input {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 98%;
+  
+  padding: 5px;
+  
+  margin-bottom: 20px;
+
+  button {
+    @include flex-align-center;
+    justify-content: center;
+    height: 100%;
+    width: 3%;
+    min-width: 32px;
+    border-radius: 0 0 0 0;
+    border: none;
+    border-radius: 0 10px 10px 0px;
+  }
+  
+  input {
+    border-radius: 10px 0 0 10px;
+    width: 95%;
+    padding-left: 20px;
+    height: 40px;
+    outline: none;
+    border: none;
+    font-size: large;
+  }
+}
