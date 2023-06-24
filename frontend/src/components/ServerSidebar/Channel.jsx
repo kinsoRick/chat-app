@@ -1,12 +1,27 @@
-import cn from "classnames";
-import PropTypes from "prop-types";
+import cn from "classnames"
+import PropTypes from "prop-types"
+import { useState, useEffect } from 'react'
 
-function Channel({ text, active, onClick = () => {} }) {
-  const styles = cn("channel", { active: active === true });
-  return (
-    <li className={styles} onClick={onClick}>
-      <span>{text}</span>
-      <button onClick={(e) => console.log(e)}>
+function Channel({ name, active, onDelete, onRename, onClick = () => { }, }) {
+  const [dropdownVisible, setDropdownVisible] = useState(false)
+
+  const mainClasses = cn("channel", { active: active })
+  const dropdownClasses = cn('dropdown', { visible: dropdownVisible })
+
+  const dropdownClick = () => {
+    return setDropdownVisible(!dropdownVisible)
+  }
+
+  useEffect(() => {
+    if (!active) setDropdownVisible(false)
+  }, [active])
+
+  const dropdownElements = (
+    <>
+      <button
+        onClick={() => dropdownClick()}
+        className="dropdown-icon"
+      >
         <svg
           width="10"
           height="7"
@@ -23,14 +38,29 @@ function Channel({ text, active, onClick = () => {} }) {
           />
         </svg>
       </button>
+      <ul className={dropdownClasses}>
+        <li onClick={(e) => onDelete(e)}>Удалить</li>
+        <li onClick={(e) => onRename(e)}>Переименовать</li>
+      </ul>
+    </>
+  )
+
+  return (
+    <li className={mainClasses} onClick={onClick}>
+      <span>{name}</span>
+      {
+        (onRename && onDelete) && dropdownElements
+      }
     </li>
   );
 }
 
 Channel.propTypes = {
-  text: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   active: PropTypes.bool,
   onClick: PropTypes.func,
+  onRename: PropTypes.func,
+  onDelete: PropTypes.func
 };
 
 export default Channel;

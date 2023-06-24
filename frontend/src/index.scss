@@ -189,7 +189,7 @@ span {
   
   padding: 5px;
   
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   button {
     @include flex-align-center;
@@ -200,6 +200,7 @@ span {
     border-radius: 0 0 0 0;
     border: none;
     border-radius: 0 10px 10px 0px;
+    cursor: pointer;
   }
   
   input {

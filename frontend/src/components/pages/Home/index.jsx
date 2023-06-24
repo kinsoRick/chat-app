@@ -15,21 +15,30 @@ const background = {
 
 function Home() {
   const [activeChannel, setActiveChannel] = useState('main');
+  const [message, setMessage] = useState('');
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    setMessage('');
+  }
+
   return (
     <div style={background}>
       <ServerSidebar>
-        <ServerHeader>Server</ServerHeader>
+        <ServerHeader>Chat</ServerHeader>
 
         <Channels>
           <Channel
-            text="main"
+            name="main"
             active={activeChannel === "main"}
             onClick={() => setActiveChannel("main")}
           />
           <Channel
-            text="general"
+            name="general"
             active={activeChannel === "second"}
             onClick={() => setActiveChannel("second")}
+            onRename={(e) => console.log(e)}
+            onDelete={(e) => console.log(e)}
           />
         </Channels>
 
@@ -43,9 +52,9 @@ function Home() {
         </div>
 
         <div className="content-body">
-          
+
         </div>
-        <MessageInput />
+        <MessageInput value={message} onClick={sendMessage} onChange={setMessage} />
       </main>
     </div>
   );

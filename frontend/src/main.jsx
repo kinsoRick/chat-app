@@ -8,6 +8,7 @@ import {
 import './index.scss'
 import Root from './routes/root.jsx'
 import Home from './components/pages/Home'
+import NotFound from './components/pages/NotFound'
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />
+  },
+  {
+    path: "*",
+    element: <NotFound />
   }
 ])
 
