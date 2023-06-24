@@ -4,6 +4,10 @@
   <a href="#" target="_blank">
     <img alt="License: UNLICENSED" src="https://img.shields.io/badge/License-UNLICENSED-yellow.svg" />
   </a>
+  <a href="https://codeclimate.com/github/kinsoRick/frontend-project-12/maintainability"><img src="https://api.codeclimate.com/v1/badges/9450ac04251a461f0df3/maintainability" /></a>
+  <a href="https://github.com/kinsoRick/frontend-project-12/actions">
+    <img alt="Hexlet checks" src="https://github.com/kinsoRick/frontend-project-12/workflows/hexlet-check/badge.svg" />
+  </a>
 </p>
 
 ### 🏠 [Homepage](https://chat-js-react-production.up.railway.app/)
