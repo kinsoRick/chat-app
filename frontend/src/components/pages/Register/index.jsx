@@ -1,6 +1,5 @@
-import axios from 'axios'
 import SecurityIllustration from '../../../assets/security.svg'
-import LoginForm from '../../LoginForm'
+import RegisterForm from '../../RegisterForm'
 import './index.scss'
 
 const background = {
@@ -11,16 +10,7 @@ const background = {
   display: "flex",
 }
 
-function Login() {
-  const authorize = (values) => {
-    axios.post('/api/v1/login', values).then((res) => {
-      if (res?.data?.token !== undefined) {
-        localStorage.setItem('token', res.data.token)
-      }
-      return window.location.pathname = '/'
-    })
-  }
-  
+function Register() {
   return (
     <main className='container' style={background}>
       <div className="pane grid-form">
@@ -35,13 +25,13 @@ function Login() {
           />
         </div>
         <div className="right-box">
-          <h1>Войти</h1>
-          <LoginForm  onSubmit={(values) => authorize(values)}/>
-          <span>Нет аккаунта? <a href="/register">Зарегистрируйтесь!</a></span>
+          <h1>Зарегистрироваться</h1>
+          <RegisterForm></RegisterForm>
+          <span>Есть аккаунт? <a href="/login">Войдите!</a></span>
         </div>
       </div>
     </main>
   )
 }
 
-export default Login
+export default Register

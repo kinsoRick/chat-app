@@ -1,0 +1,48 @@
+@import '../../../index.scss';
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+
+  .right-box {
+    grid-area: 1 / 2 / 2 / 3;
+
+    @include flex-center-column;
+    justify-content: center;
+  }
+
+  .left-box {
+    grid-area: 1 / 1 / 2 / 2;
+
+    @include flex-center-column;
+    justify-content: center;
+  }
+}
+
+.pane {
+  height: 60%;
+  width: 70vw;
+  color: white;
+  background: rgba(255, 255, 255, 0.23);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.1px);
+  -webkit-backdrop-filter: blur(6.1px);
+  border: 1px solid rgba(255, 255, 255, 0.43);
+
+  span {
+    margin-left: 0;
+    font-family: 'Montserrat';
+    color: white;
+    font-weight: lighter;
+    font-size: small;
+  }
+
+  a {
+    color: rgb(109, 209, 255);
+    text-decoration: none;
+  }
+}

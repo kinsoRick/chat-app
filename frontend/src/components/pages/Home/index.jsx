@@ -17,6 +17,7 @@ function Home() {
   const [activeChannel, setActiveChannel] = useState('main');
   const [message, setMessage] = useState('');
 
+
   const sendMessage = (e) => {
     e.preventDefault();
     setMessage('');

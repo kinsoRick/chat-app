@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "breakpoint-sass": "^3.0.0",
     "classnames": "^2.3.2",
     "formik": "^2.4.2",
