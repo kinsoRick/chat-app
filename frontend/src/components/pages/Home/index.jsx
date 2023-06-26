@@ -1,68 +1,76 @@
-import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ServerSidebar, { Channel, Channels, ServerHeader } from '../../ServerSidebar';
+import Dropdown from '../../Dropdown';
 import MessageInput from '../../MessageInput';
-import './index.scss';
+import MessageListener from '../../MessageListener';
 import AuthContext from '../../../contexts/AuthContext';
 
-const background = {
-  background: "url('https://i.ibb.co/fD2k187/Photo.png')",
-  width: '100vw',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
-  display: 'flex',
-};
+import getData from '../../../store/actions/getData';
+import socket from '../../../socket';
+import { actions as channelsActions } from '../../../store/channelsSlice';
+import './index.scss';
 
 function Home() {
-  const [activeChannel, setActiveChannel] = useState('main');
-  const [message, setMessage] = useState('');
-  const { auth } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { auth, token } = useContext(AuthContext);
+
+  const [channels, currentChannel, currentChannelId] = useSelector((state) => {
+    const { entities } = state.channels ?? {};
+    const currentEntityId = state.channels.currentChannelId;
+    const currentEntity = (Object.keys(entities).length > 0) ? entities[currentEntityId - 1] : null;
+
+    return [Object.values(entities), currentEntity, currentEntityId];
+  });
+  const status = useSelector((state) => state.channels.status === 'fulfilled');
+
+  const sendMessage = ({ message }) => {
+    socket.emit('newMessage', { body: message, channelId: currentChannelId, username: 'admin' });
+  };
+
+  const renderChannels = (channelsArray) => channelsArray
+    .map(({ id, name, removable }) => (
+      <Channel
+        key={id}
+        name={name}
+        active={currentChannelId === id}
+        onClick={() => dispatch(channelsActions.setCurrentChannel(id))}
+      >
+        {removable && <Dropdown />}
+      </Channel>
+    ));
 
   useEffect(() => {
     if (!auth) navigate('/login');
-  });
-
-  const sendMessage = (e) => {
-    e.preventDefault();
-    setMessage('');
-  };
+    if (!status) dispatch(getData(token));
+  }, [auth, status, token, dispatch, navigate]);
 
   return (
-    <div style={background}>
+    <section className="home-page">
       <ServerSidebar>
-        <ServerHeader>Chat</ServerHeader>
+        <ServerHeader>Чат</ServerHeader>
 
         <Channels>
-          <Channel
-            name="main"
-            active={activeChannel === 'main'}
-            onClick={() => setActiveChannel('main')}
-          />
-          <Channel
-            name="second"
-            active={activeChannel === 'second'}
-            onClick={() => setActiveChannel('second')}
-          />
+          {renderChannels(channels)}
         </Channels>
-
-        <div className="resizer" />
       </ServerSidebar>
 
-      <main className="server-content">
-        <div className="content-header">
-          <span className="channel-name">
-            #
-            {activeChannel}
-          </span>
-          <span className="channel-messages">0 сообщений</span>
-        </div>
-
-        <div className="content-body" />
-        <MessageInput value={message} onClick={sendMessage} onChange={setMessage} />
-      </main>
-    </div>
+      {
+        status
+        && (
+          <main className="server-content">
+            <div className="content-header">
+              <span className="channel-name">{`# ${currentChannel.name}`}</span>
+            </div>
+            <MessageListener channelId={currentChannel.id} />
+            <MessageInput onSubmit={(message) => sendMessage(message)} />
+          </main>
+        )
+      }
+    </section>
   );
 }
 

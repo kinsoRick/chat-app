@@ -17,36 +17,34 @@ function LoginForm({ onSubmit }) {
   });
 
   return (
-    <div>
-      <Formik
-        initialValues={{
-          username: '',
-          password: '',
-        }}
-        onSubmit={(values) => onSubmit(values)}
-        validationSchema={loginSchema}
-      >
-        {({ errors, touched }) => (
-          <Form className="login-form">
-            <div className="floating-field">
-              <Field id="username" name="username" placeholder="nickname" va />
-              <label htmlFor="username">Имя пользователя</label>
-              {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
-            </div>
+    <Formik
+      initialValues={{
+        username: '',
+        password: '',
+      }}
+      onSubmit={(values) => onSubmit(values)}
+      validationSchema={loginSchema}
+    >
+      {({ errors, touched }) => (
+        <Form className="login-form">
+          <div className="floating-field">
+            <Field id="username" name="username" placeholder="nickname" />
+            <label htmlFor="username">Имя пользователя</label>
+            {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
+          </div>
 
-            <div className="floating-field">
-              <Field id="password" name="password" type="password" placeholder="qwerty" />
-              <label htmlFor="password">Пароль</label>
-              {errors.password && touched.password ? <div className="input-error">{errors.password}</div> : null}
-            </div>
+          <div className="floating-field">
+            <Field id="password" name="password" type="password" placeholder="qwerty" />
+            <label htmlFor="password">Пароль</label>
+            {errors.password && touched.password ? <div className="input-error">{errors.password}</div> : null}
+          </div>
 
-            <button type="submit" className="btn">
-              Отправить
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+          <button type="submit" className="btn">
+            Отправить
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

@@ -18,7 +18,7 @@ function App() {
   const [token, setToken] = useLocalStorage('token', '');
   const auth = token !== '';
 
-  const contextValues = useMemo(() => ({ setToken, auth }), [auth, setToken]);
+  const contextValues = useMemo(() => ({ token, setToken, auth }), [token, auth, setToken]);
 
   const router = createBrowserRouter([
     {
