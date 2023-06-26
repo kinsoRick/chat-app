@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types'
-import { Formik, Field, Form } from 'formik'
-import * as Yup from 'yup'
+import PropTypes from 'prop-types';
+import { Formik, Field, Form } from 'formik';
+import * as Yup from 'yup';
 
-import './index.scss'
+import './index.scss';
 
 function RegisterForm({ onSubmit }) {
   const loginSchema = Yup.object().shape({
@@ -15,8 +15,8 @@ function RegisterForm({ onSubmit }) {
       .max(48, 'Максимум 48 символов')
       .required('Обязательное поле'),
     retypePassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
-  })
+      .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать'),
+  });
 
   return (
     <div>
@@ -30,38 +30,37 @@ function RegisterForm({ onSubmit }) {
         validationSchema={loginSchema}
       >
         {({ errors, touched }) => (
-          <Form className='register-form'>
+          <Form className="register-form">
             <div className="floating-field">
               <Field id="username" name="username" placeholder="nickname" va />
               <label htmlFor="username">Имя пользователя</label>
-              {errors.username && touched.username ? <div className='input-error'>{errors.username}</div> : null}
+              {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
             </div>
 
             <div className="floating-field">
               <Field id="password" name="password" type="password" placeholder="qwerty" />
               <label htmlFor="password">Пароль</label>
-              {errors.password && touched.password ? <div className='input-error'>{errors.password}</div> : null}
+              {errors.password && touched.password ? <div className="input-error">{errors.password}</div> : null}
             </div>
 
             <div className="floating-field">
               <Field id="retypePassword" name="retypePassword" type="password" placeholder="qwerty" />
               <label htmlFor="retypePassword">Повторите пароль</label>
-              {errors.retypePassword && touched.retypePassword ? <div className='input-error'>{errors.retypePassword}</div> : null}
+              {errors.retypePassword && touched.retypePassword ? <div className="input-error">{errors.retypePassword}</div> : null}
             </div>
 
-            
-            <button type='submit' className='btn'>
+            <button type="submit" className="btn">
               Отправить
             </button>
           </Form>
         )}
       </Formik>
     </div>
-  )
+  );
 }
 
 RegisterForm.propTypes = {
-  onSubmit: PropTypes.func
-}
+  onSubmit: PropTypes.func.isRequired,
+};
 
-export default RegisterForm
+export default RegisterForm;

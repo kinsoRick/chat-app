@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 function Channels({ children }) {
   return (
@@ -13,7 +13,7 @@ function Channels({ children }) {
 }
 
 Channels.propTypes = {
-  children: PropTypes.node
-}
+  children: PropTypes.node.isRequired,
+};
 
 export default Channels;

@@ -1,9 +1,9 @@
-import "./serverSidebar.scss";
-import PropTypes from 'prop-types'
+import './serverSidebar.scss';
+import PropTypes from 'prop-types';
 
-import ServerHeader from "./Header"
-import Channel from "./Channel"
-import Channels from "./Channels"
+import ServerHeader from './Header';
+import Channel from './Channel';
+import Channels from './Channels';
 
 function ServerSidebar({ children }) {
   return (
@@ -14,8 +14,8 @@ function ServerSidebar({ children }) {
 }
 
 ServerSidebar.propTypes = {
-  children: PropTypes.node
-}
+  children: PropTypes.node.isRequired,
+};
 
-export { Channel, ServerHeader, Channels }
+export { Channel, ServerHeader, Channels };
 export default ServerSidebar;

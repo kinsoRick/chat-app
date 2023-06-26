@@ -8,9 +8,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lintcss": "npx stylelint '**/*.scss'",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "breakpoint-sass": "^3.0.0",
     "classnames": "^2.3.2",
@@ -20,6 +22,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.0",
     "sort-by": "^1.2.0",
     "yup": "^1.2.0"
@@ -30,11 +33,19 @@
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.38.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
     "sass": "^1.63.6",
+    "stylelint": "^15.9.0",
+    "stylelint-config-standard-scss": "^9.0.0",
+    "stylelint-scss": "^5.0.1",
     "vite": "^4.3.9"
   }
 }
