@@ -28,6 +28,7 @@ function Home() {
   const status = useSelector((state) => state.channels.status === 'fulfilled');
 
   const sendMessage = ({ message }) => {
+    if (message === '') return;
     socket.emit('newMessage', { body: message, channelId: currentChannelId, username: 'admin' });
   };
 

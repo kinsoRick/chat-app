@@ -153,15 +153,15 @@ span {
 
   .content-body {
     height: 100%;
-    padding: 40px 60px;
+    padding: 30px;
     font-size: 20px;
     font-weight: normal;
     font-family: Roboto, sans-serif;
     line-height: 24px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-    p {
-      margin-top: 0;
-    }
+    @include scrollbars(6px, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1), 10px);
   }
 
   .content-header {
@@ -232,5 +232,38 @@ span {
     &:focus {
       background: white;
     }
+  }
+}
+
+.message {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  width: 70%;
+
+  &-body {
+    width: 100%;
+    margin: 0;
+    overflow-wrap: break-word;
+
+    b {
+      color: #2e2e2e;
+    }
+  }
+
+  &-avatar {
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    min-height: 40px;
+    color: white;
+    background: rgb(17 20 212 / 50%);
+    box-shadow: 0 0 10px rgb(17 20 212 / 10%);
+    border: 1px solid rgb(17 20 212 / 10%);
+    backdrop-filter: blur(7.1px);
+    font-size: large;
+    border-radius: 50%;
   }
 }

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { actions as channelsActions } from '../store/channelsSlice';
 import { actions as messagesActions } from '../store/messagesSlice';
 
+import Message from './Message';
 import socket from '../socket';
 
 function MessageListener({ channelId }) {
@@ -45,10 +46,11 @@ function MessageListener({ channelId }) {
     <div className="content-body">
       {
         messages.map((message) => (
-          <p key={message.id}>
-            <b>{message.username}</b>
-            {`:${message.body}`}
-          </p>
+          <Message
+            key={message.id}
+            username={message.username}
+            text={message.body}
+          />
         ))
       }
     </div>
