@@ -4,14 +4,14 @@ import * as Yup from 'yup';
 
 import './index.scss';
 
-function RegisterForm({ onSubmit }) {
+function RegisterForm({ onSubmit, error }) {
   const loginSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, 'Минимум 3 символа')
-      .max(48, 'Максимум 48 символов')
+      .max(20, 'Максимум 20 символов')
       .required('Обязательное поле'),
     password: Yup.string()
-      .min(3, 'Минимум 3 символа')
+      .min(6, 'Минимум 6 символов')
       .max(48, 'Максимум 48 символов')
       .required('Обязательное поле'),
     retypePassword: Yup.string()
@@ -34,6 +34,7 @@ function RegisterForm({ onSubmit }) {
             <div className="floating-field">
               <Field id="username" name="username" placeholder="nickname" />
               <label htmlFor="username">Имя пользователя</label>
+              {error && <div className="input-error">{error}</div>}
               {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
             </div>
 
@@ -59,8 +60,13 @@ function RegisterForm({ onSubmit }) {
   );
 }
 
+RegisterForm.defaultProps = {
+  error: null,
+};
+
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 export default RegisterForm;

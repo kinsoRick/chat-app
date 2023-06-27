@@ -20,7 +20,9 @@ import './index.scss';
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth, token, username } = useContext(AuthContext);
+  const {
+    auth, token, username, setToken, setUsername,
+  } = useContext(AuthContext);
 
   const [activeDropdown, setActiveDropdown] = useState('');
 
@@ -49,6 +51,11 @@ function Home() {
     socket.emit('newMessage', { body: message, channelId: currentChannelId, username });
   };
 
+  const logout = () => {
+    setToken('');
+    setUsername('');
+  };
+
   return (
     <section className="home-page">
       <ServerSidebar>
@@ -63,13 +70,13 @@ function Home() {
               onClick={() => dispatch(channelsActions.setCurrentChannel(id))}
             >
               {removable
-              && (
-                <Dropdown
-                  channelId={id}
-                  show={activeDropdown === name}
-                  onClick={() => setActiveDropdown(name)}
-                />
-              )}
+                && (
+                  <Dropdown
+                    channelId={id}
+                    show={activeDropdown === name}
+                    onClick={() => setActiveDropdown(name)}
+                  />
+                )}
             </MemoChannel>
           ))}
         </Channels>
@@ -80,8 +87,11 @@ function Home() {
         && (
           <main className="server-content">
             <div className="content-header">
-              <span className="channel-name">{`# ${currentChannel.name}`}</span>
-              <span className="channel-messages">{`${filteredMessages.length} сообщений`}</span>
+              <div className="main-info">
+                <span className="channel-name">{`# ${currentChannel.name}`}</span>
+                <span className="channel-messages">{`${filteredMessages.length} сообщений`}</span>
+              </div>
+              <button type="button" className="ml-auto btn-logout" onClick={logout}>Выход</button>
             </div>
             <MessageListener channelId={currentChannel.id} />
             <MessageInput onSubmit={(message) => sendMessage(message)} />

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SecurityIllustration from '../../../assets/security.svg';
@@ -18,13 +18,21 @@ function Register() {
   const { auth, setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [error, setError] = useState(null);
   const register = (values) => {
     const { username, password } = values;
+    setError(null);
+
     axios.post('/api/v1/signup', { username, password }).then((res) => {
       setToken(res.data.token);
       setUsername(res.data.username);
       navigate('/');
-    });
+    })
+      .catch((err) => {
+        if (err.response.data.statusCode === 409) {
+          setError('Такой ник уже занят!');
+        }
+      });
   };
 
   useEffect(() => {
@@ -47,7 +55,7 @@ function Register() {
         </div>
         <div className="right-box">
           <h1>Зарегистрироваться</h1>
-          <RegisterForm onSubmit={register} />
+          <RegisterForm onSubmit={register} error={error} />
           <span>
             Есть аккаунт?
             <a href="/login"> Войдите!</a>
