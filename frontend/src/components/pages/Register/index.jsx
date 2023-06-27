@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import SecurityIllustration from '../../../assets/security.svg';
 import RegisterForm from '../../RegisterForm';
 import './index.scss';
@@ -14,8 +15,17 @@ const background = {
 };
 
 function Register() {
-  const { auth } = useContext(AuthContext);
+  const { auth, setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const register = (values) => {
+    const { username, password } = values;
+    axios.post('/api/v1/signup', { username, password }).then((res) => {
+      setToken(res.data.token);
+      setUsername(res.data.username);
+      navigate('/');
+    });
+  };
 
   useEffect(() => {
     if (auth) navigate('/');
@@ -37,7 +47,7 @@ function Register() {
         </div>
         <div className="right-box">
           <h1>Зарегистрироваться</h1>
-          <RegisterForm />
+          <RegisterForm onSubmit={register} />
           <span>
             Есть аккаунт?
             <a href="/login"> Войдите!</a>

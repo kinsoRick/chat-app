@@ -1,8 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import {
+  useContext, useEffect, useMemo, useState,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ServerSidebar, { Channel, Channels, ServerHeader } from '../../ServerSidebar';
+import ServerSidebar, { Channels } from '../../ServerSidebar';
+import { MemoServerHeader } from '../../ServerSidebar/Header';
+import { MemoChannel } from '../../ServerSidebar/Channel';
 import Dropdown from '../../Dropdown';
 import MessageInput from '../../MessageInput';
 import MessageListener from '../../MessageListener';
@@ -16,55 +20,68 @@ import './index.scss';
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth, token } = useContext(AuthContext);
+  const { auth, token, username } = useContext(AuthContext);
 
-  const [channels, currentChannel, currentChannelId] = useSelector((state) => {
-    const { entities } = state.channels ?? {};
-    const currentEntityId = state.channels.currentChannelId;
-    const currentEntity = (Object.keys(entities).length > 0) ? entities[currentEntityId - 1] : null;
+  const [activeDropdown, setActiveDropdown] = useState('');
 
-    return [Object.values(entities), currentEntity, currentEntityId];
-  });
-  const status = useSelector((state) => state.channels.status === 'fulfilled');
+  // CHANNELS HANDLING
+  const channels = Object.values(useSelector((state) => state.channels.entities));
+  const channelsLoaded = useSelector((state) => state.channels.status) === 'fulfilled';
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const currentChannel = useMemo(
+    () => channels.filter((channel) => channel.id === currentChannelId)[0] ?? null,
+    [channels, currentChannelId],
+  );
 
-  const sendMessage = ({ message }) => {
-    if (message === '') return;
-    socket.emit('newMessage', { body: message, channelId: currentChannelId, username: 'admin' });
-  };
-
-  const renderChannels = (channelsArray) => channelsArray
-    .map(({ id, name, removable }) => (
-      <Channel
-        key={id}
-        name={name}
-        active={currentChannelId === id}
-        onClick={() => dispatch(channelsActions.setCurrentChannel(id))}
-      >
-        {removable && <Dropdown />}
-      </Channel>
-    ));
+  const messages = useSelector((state) => state.messages.entities);
+  const filteredMessages = useMemo(
+    () => Object.values(messages).filter((entity) => entity.channelId === currentChannelId),
+    [messages, currentChannelId],
+  );
 
   useEffect(() => {
     if (!auth) navigate('/login');
-    if (!status) dispatch(getData(token));
-  }, [auth, status, token, dispatch, navigate]);
+    if (!channelsLoaded) dispatch(getData(token));
+  }, [auth, channelsLoaded, dispatch, navigate, token]);
+
+  const sendMessage = ({ message }) => {
+    if (message === '') return;
+    socket.emit('newMessage', { body: message, channelId: currentChannelId, username });
+  };
 
   return (
     <section className="home-page">
       <ServerSidebar>
-        <ServerHeader>Чат</ServerHeader>
+        <MemoServerHeader>Чат</MemoServerHeader>
 
         <Channels>
-          {renderChannels(channels)}
+          {channels.map(({ id, name, removable }) => (
+            <MemoChannel
+              key={id}
+              name={name}
+              active={currentChannelId === id}
+              onClick={() => dispatch(channelsActions.setCurrentChannel(id))}
+            >
+              {removable
+              && (
+                <Dropdown
+                  channelId={id}
+                  show={activeDropdown === name}
+                  onClick={() => setActiveDropdown(name)}
+                />
+              )}
+            </MemoChannel>
+          ))}
         </Channels>
       </ServerSidebar>
 
       {
-        status
+        channelsLoaded
         && (
           <main className="server-content">
             <div className="content-header">
               <span className="channel-name">{`# ${currentChannel.name}`}</span>
+              <span className="channel-messages">{`${filteredMessages.length} сообщений`}</span>
             </div>
             <MessageListener channelId={currentChannel.id} />
             <MessageInput onSubmit={(message) => sendMessage(message)} />

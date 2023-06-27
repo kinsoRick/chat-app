@@ -32,7 +32,7 @@ function RegisterForm({ onSubmit }) {
         {({ errors, touched }) => (
           <Form className="register-form">
             <div className="floating-field">
-              <Field id="username" name="username" placeholder="nickname" va />
+              <Field id="username" name="username" placeholder="nickname" />
               <label htmlFor="username">Имя пользователя</label>
               {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
             </div>

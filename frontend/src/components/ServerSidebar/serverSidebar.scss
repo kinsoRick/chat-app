@@ -175,13 +175,16 @@
   width: 100vw;
   height: 100vh;
   position: absolute;
+  opacity: 0;
   z-index: 1000;
   background: rgb(0 0 0 / 30%);
+  transition: all 0.2s ease-in-out;
 
   &.show {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 1;
   }
 
   &-content {

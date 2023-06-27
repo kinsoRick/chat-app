@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 
 function Message({ username, text }) {
   const firstChar = username.substring(0, 1);
@@ -19,3 +20,5 @@ Message.propTypes = {
 };
 
 export default Message;
+
+export const MemoMessage = React.memo(Message);

@@ -16,9 +16,15 @@ import useLocalStorage from './hooks/useLocalStorage';
 
 function App() {
   const [token, setToken] = useLocalStorage('token', '');
+  const [username, setUsername] = useLocalStorage('username', '');
   const auth = token !== '';
 
-  const contextValues = useMemo(() => ({ token, setToken, auth }), [token, auth, setToken]);
+  const contextValues = useMemo(
+    () => ({
+      token, setToken, auth, username, setUsername,
+    }),
+    [token, setToken, auth, username, setUsername],
+  );
 
   const router = createBrowserRouter([
     {

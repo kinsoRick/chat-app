@@ -16,11 +16,12 @@ const background = {
 };
 
 function Login() {
-  const { auth, setToken } = useContext(AuthContext);
+  const { auth, setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
   const authorize = (values) => {
     axios.post('/api/v1/login', values).then((res) => {
       setToken(res.data.token);
+      setUsername(res.data.username);
     });
   };
 
