@@ -23,6 +23,34 @@
   }
 }
 
+.nav-pane {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  height: 3vw;
+  width: 100vw;
+  background: rgb(255 255 255 / 23%);
+  border-radius: 0px 0px 8px 8px;
+  box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(6.1px);
+  border: 1px solid rgb(255 255 255 / 43%);
+
+  .nav-content {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      font-family: Roboto, sans-serif;
+      font-weight: normal;
+      font-size: 20px;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
 .pane {
   height: 60%;
   width: 70vw;
