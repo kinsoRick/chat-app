@@ -4,17 +4,17 @@ import {
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import ServerSidebar, { Channels } from '../../ServerSidebar';
-import { MemoServerHeader } from '../../ServerSidebar/Header';
-import { MemoChannel } from '../../ServerSidebar/Channel';
-import Dropdown from '../../Dropdown';
-import MessageInput from '../../MessageInput';
-import MessageListener from '../../MessageListener';
-import AuthContext from '../../../contexts/AuthContext';
+import ServerSidebar, { Channels } from '../../components/ServerSidebar';
+import { MemoServerHeader } from '../../components/ServerSidebar/Header';
+import { MemoChannel } from '../../components/ServerSidebar/Channel';
+import Dropdown from '../../components/Dropdown';
+import MessageInput from '../../components/MessageInput';
+import MessageListener from '../../components/MessageListener';
+import AuthContext from '../../contexts/AuthContext';
 
-import getData from '../../../store/actions/getData';
-import socket from '../../../socket';
-import { actions as channelsActions } from '../../../store/channelsSlice';
+import getData from '../../store/actions/getData';
+import socket from '../../socket';
+import { actions as channelsActions } from '../../store/channelsSlice';
 import './index.scss';
 
 function Home() {
@@ -25,6 +25,11 @@ function Home() {
   } = useContext(AuthContext);
 
   const [activeDropdown, setActiveDropdown] = useState('');
+
+  const toggleDropdown = (name) => {
+    if (activeDropdown === name) setActiveDropdown('');
+    else setActiveDropdown(name);
+  };
 
   // CHANNELS HANDLING
   const channels = Object.values(useSelector((state) => state.channels.entities));
@@ -74,7 +79,7 @@ function Home() {
                   <Dropdown
                     channelId={id}
                     show={activeDropdown === name}
-                    onClick={() => setActiveDropdown(name)}
+                    onClick={() => toggleDropdown(name)}
                   />
                 )}
             </MemoChannel>

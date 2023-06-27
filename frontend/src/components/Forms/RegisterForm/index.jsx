@@ -29,8 +29,10 @@ function RegisterForm({ onSubmit, error }) {
         onSubmit={(values) => onSubmit(values)}
         validationSchema={loginSchema}
       >
+
         {({ errors, touched }) => (
           <Form className="register-form">
+
             <div className="floating-field">
               <Field id="username" name="username" placeholder="nickname" />
               <label htmlFor="username">Имя пользователя</label>

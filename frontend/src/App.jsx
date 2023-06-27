@@ -6,10 +6,10 @@ import { useMemo } from 'react';
 import { Provider } from 'react-redux';
 
 import AuthContext from './contexts/AuthContext';
-import Home from './components/pages/Home';
-import NotFound from './components/pages/NotFound';
-import Login from './components/pages/Login';
-import Register from './components/pages/Register';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 import store from './store';
 import useLocalStorage from './hooks/useLocalStorage';

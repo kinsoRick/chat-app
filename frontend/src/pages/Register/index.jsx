@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import SecurityIllustration from '../../../assets/security.svg';
-import RegisterForm from '../../RegisterForm';
+import SecurityIllustration from '../../assets/security.svg';
+import RegisterForm from '../../components/Forms/RegisterForm';
 import './index.scss';
-import AuthContext from '../../../contexts/AuthContext';
+import AuthContext from '../../contexts/AuthContext';
 
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
@@ -14,7 +14,7 @@ const background = {
 };
 
 function Register() {
-  const { auth, setToken, setUsername } = useContext(AuthContext);
+  const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [error, setError] = useState(null);
@@ -22,21 +22,19 @@ function Register() {
     const { username, password } = values;
     setError(null);
 
-    axios.post('/api/v1/signup', { username, password }).then((res) => {
-      setToken(res.data.token);
-      setUsername(res.data.username);
-      navigate('/');
-    })
+    axios
+      .post('/api/v1/signup', { username, password }).then((res) => {
+        setToken(res.data.token);
+        setUsername(res.data.username);
+
+        navigate('/');
+      })
       .catch((err) => {
         if (err.response.data.statusCode === 409) {
           setError('Такой ник уже занят!');
         }
       });
   };
-
-  useEffect(() => {
-    if (auth) navigate('/');
-  });
 
   return (
     <div style={background}>
@@ -45,6 +43,7 @@ function Register() {
           <a href="/">Hexlet Chat</a>
         </div>
       </nav>
+
       <main className="container">
         <div className="pane grid-form">
           <div className="left-box">
@@ -58,6 +57,7 @@ function Register() {
               }}
             />
           </div>
+
           <div className="right-box">
             <h1>Зарегистрироваться</h1>
             <RegisterForm onSubmit={register} error={error} />
@@ -66,6 +66,7 @@ function Register() {
               <a href="/login"> Войдите!</a>
             </span>
           </div>
+
         </div>
       </main>
     </div>

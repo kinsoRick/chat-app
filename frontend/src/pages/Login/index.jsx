@@ -1,11 +1,11 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import SecurityIllustration from '../../../assets/security.svg';
-import LoginForm from '../../LoginForm';
+import SecurityIllustration from '../../assets/security.svg';
+import LoginForm from '../../components/Forms/LoginForm';
 import './index.scss';
-import AuthContext from '../../../contexts/AuthContext';
+import AuthContext from '../../contexts/AuthContext';
 
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
@@ -15,18 +15,15 @@ const background = {
 };
 
 function Login() {
-  const { auth, setToken, setUsername } = useContext(AuthContext);
+  const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
   const authorize = (values) => {
     axios.post('/api/v1/login', values).then((res) => {
       setToken(res.data.token);
       setUsername(res.data.username);
+      navigate('/');
     });
   };
-
-  useEffect(() => {
-    if (auth) navigate('/');
-  });
 
   return (
     <div style={background}>
@@ -49,14 +46,18 @@ function Login() {
               }}
             />
           </div>
+
           <div className="right-box">
             <h1>Войти</h1>
+
             <LoginForm onSubmit={(values) => authorize(values)} />
+
             <span>
               Нет аккаунта?
               <a href="/register"> Зарегистрируйтесь!</a>
             </span>
           </div>
+
         </div>
       </main>
     </div>

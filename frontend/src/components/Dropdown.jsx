@@ -1,33 +1,43 @@
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
+
 import socket from '../socket';
 import Modal from './Modal';
+import dropdownIcon from '../assets/dropdown.svg';
+import RenameForm from './Forms/RenameForm';
 
 function Dropdown({
   onClick, channelId, show = false,
 }) {
-  const [showModal, setShowModal] = useState(false);
+  const [showRenameModal, setRenameModal] = useState(false);
+  const [showDeleteModal, setDeleteModal] = useState(false);
+
+  const { t } = useTranslation();
+
   const dropdownClasses = cn('dropdown', { visible: show });
 
-  const onDelete = () => {
-    socket.emit('removeChannel', { id: channelId });
-  };
+  const onDelete = () => setDeleteModal(!showDeleteModal);
+  const onRename = () => setRenameModal(!showRenameModal);
 
-  const onRename = () => {
-    setShowModal(!showModal);
-  };
-
-  const controlModal = (event) => {
+  const controlRenameModal = (event) => {
     const { modal } = event.target.dataset;
-    if (modal !== undefined) setShowModal(!showModal);
+    if (modal !== undefined) setRenameModal(!showRenameModal);
+  };
+
+  const controlDeleteModal = (event) => {
+    const { modal } = event.target.dataset;
+    if (modal !== undefined) setDeleteModal(!showDeleteModal);
   };
 
   const renameServer = ({ serverRename }) => {
     socket.emit('renameChannel', { id: channelId, name: serverRename });
-    setShowModal(!showModal);
+    setRenameModal(!showRenameModal);
   };
+
+  const deleteServer = () => socket.emit('removeChannel', { id: channelId });
+
   return (
     <>
       <button
@@ -35,51 +45,40 @@ function Dropdown({
         onClick={(e) => onClick(e)}
         className="dropdown-icon"
       >
-        <svg
-          width="10"
-          height="7"
-          viewBox="0 0 10 7"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            opacity="1"
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M8.83179 1.11001L4.76335 5.54369L0.694996 1.11001C0.539953 0.955178 0.288448 0.955178 0.133405 1.11001C-0.0218905 1.26489 -0.0218905 1.51589 0.133405 1.67072L4.4626 6.38869C4.54539 6.47128 4.65513 6.50652 4.76335 6.50094C4.87166 6.50652 4.98148 6.47128 5.06418 6.38869L9.39355 1.67072C9.54875 1.51589 9.54875 1.26489 9.39355 1.11001C9.23842 0.955178 8.98699 0.955178 8.83179 1.11001Z"
-            fill="white"
-          />
-        </svg>
+        <img src={dropdownIcon} alt="dropdown icon" />
       </button>
+
       <div className={dropdownClasses}>
         <button type="button" onClick={(e) => onDelete(e)}>Удалить</button>
         <button type="button" onClick={(e) => onRename(e)}>Переименовать</button>
       </div>
 
-      <Modal controlModal={controlModal} showModal={showModal} headerName="Переименовать канал">
-        <Formik
-          initialValues={{
-            serverRename: '',
-          }}
-          onSubmit={(values, { resetForm }) => {
-            renameServer(values);
-            resetForm();
-          }}
+      {/* Modal created in portal */}
+      <Modal controlModal={controlRenameModal} showModal={showRenameModal} headerName="Переименовать канал">
+        <RenameForm renameServer={renameServer} controlModal={controlRenameModal} />
+      </Modal>
+
+      <Modal controlModal={controlDeleteModal} showModal={showDeleteModal} headerName="Удалить канал">
+        <h3 style={{ textAlign: 'center' }}>Уверены?</h3>
+
+        <button
+          type="button"
+          className="btn-cancel"
+          onClick={() => deleteServer()}
+          style={{ margin: '0 10px 10px' }}
         >
-          <Form className="server-form">
-            <Field className="server-name-input" id="serverRename" name="serverRename" placeholder="Новое название сервера" />
-            <br />
-            <button type="submit" className="btn-success">Отправить</button>
-            <button
-              type="button"
-              className="btn-cancel"
-              onClick={(e) => controlModal(e)}
-              data-modal
-            >
-              Отменить
-            </button>
-          </Form>
-        </Formik>
+          Удалить
+        </button>
+
+        <button
+          type="button"
+          className="btn-success"
+          onClick={(e) => controlDeleteModal(e)}
+          style={{ margin: '0 10px 10px' }}
+          data-modal
+        >
+          Отменить
+        </button>
       </Modal>
     </>
   );

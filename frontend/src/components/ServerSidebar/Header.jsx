@@ -1,6 +1,7 @@
 import { useState, memo } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
+
+import AddForm from '../Forms/AddForm';
 import Modal from '../Modal';
 import socket from '../../socket';
 
@@ -31,29 +32,7 @@ function ServerHeader({ children }) {
 
       {/* Modal created in Portal */}
       <Modal controlModal={controlModal} showModal={showModal} headerName="Добавить канал">
-        <Formik
-          initialValues={{
-            serverName: '',
-          }}
-          onSubmit={(values, { resetForm }) => {
-            newServer(values);
-            resetForm();
-          }}
-        >
-          <Form className="server-form">
-            <Field className="server-name-input" id="serverName" name="serverName" placeholder="Название сервера" />
-            <br />
-            <button type="submit" className="btn-success">Отправить</button>
-            <button
-              type="button"
-              className="btn-cancel"
-              onClick={(e) => controlModal(e)}
-              data-modal
-            >
-              Отменить
-            </button>
-          </Form>
-        </Formik>
+        <AddForm newServer={newServer} controlModal={controlModal} />
       </Modal>
     </div>
   );

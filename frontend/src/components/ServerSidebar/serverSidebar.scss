@@ -52,7 +52,7 @@
       padding: 0;
       background: none;
       margin-left: auto;
-      margin-right: 8px;
+      margin-right: 2px;
       height: 50%;
       width: 5%;
       border: none;
@@ -157,7 +157,7 @@
   color: white;
   content: url("data:image/svg+xml,%3Csvg width='20px' height='20px' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='none'%3E%3Cpath fill='%23ffffff' fill-rule='evenodd' d='M9 17a1 1 0 102 0v-6h6a1 1 0 100-2h-6V3a1 1 0 10-2 0v6H3a1 1 0 000 2h6v6z'/%3E%3C/svg%3E");
 
-  &:hover {
+  &:hover, &:focus {
     transform: rotate(180deg) scale(1.25);
   }
 }
@@ -167,7 +167,6 @@
   margin: 0;
   background: none;
   border: none;
-  outline: none;
 }
 
 .modal {
@@ -197,56 +196,56 @@
   text-align: center;
 }
 
+.btn-success {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 94%;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: medium;
+  height: 100%;
+  background: transparent;
+  border-radius: 4px;
+  box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(8.1px);
+  border: 1px solid rgb(255 255 255 / 43%);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: rgb(186 255 173 / 30%);
+    border-color: rgb(186 255 173 / 30%);
+    box-shadow: 0 4px 30px rgb(186 255 173 / 20%);
+  }
+}
+
 .server-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
 
-  .btn-success {
-    padding: 5px;
-    margin-bottom: 10px;
-    width: 94%;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: medium;
-    height: 100%;
-    background: transparent;
-    border-radius: 4px;
-    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
-    backdrop-filter: blur(8.1px);
-    border: 1px solid rgb(255 255 255 / 43%);
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+.btn-cancel {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 94%;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: medium;
+  height: 100%;
+  background: transparent;
+  border-radius: 4px;
+  box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(8.1px);
+  border: 1px solid rgb(255 255 255 / 43%);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 
-    &:hover {
-      background: rgb(186 255 173 / 30%);
-      border-color: rgb(186 255 173 / 30%);
-      box-shadow: 0 4px 30px rgb(186 255 173 / 20%);
-    }
-  }
-
-  .btn-cancel {
-    padding: 5px;
-    margin-bottom: 10px;
-    width: 94%;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: medium;
-    height: 100%;
-    background: transparent;
-    border-radius: 4px;
-    box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
-    backdrop-filter: blur(8.1px);
-    border: 1px solid rgb(255 255 255 / 43%);
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      background: rgb(250 147 147 / 30%);
-      border-color: rgb(250 147 147 / 30%);
-      box-shadow: 0 4px 30px rgb(250 147 147 / 30%);
-    }
+  &:hover {
+    background: rgb(250 147 147 / 30%);
+    border-color: rgb(250 147 147 / 30%);
+    box-shadow: 0 4px 30px rgb(250 147 147 / 30%);
   }
 }
 
