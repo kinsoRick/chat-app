@@ -7,69 +7,73 @@ import socket from '../socket';
 import Modal from './Modal';
 import dropdownIcon from '../assets/dropdown.svg';
 import RenameForm from './Forms/RenameForm';
+import isNameAvailable from '../utils/isNameAvailable';
 import AuthContext from '../contexts/AuthContext';
 
-function Dropdown({
-  onClick, channelId, show = false,
-}) {
+function Dropdown({ onClick, channelId, show = false }) {
   const { token } = useContext(AuthContext);
   const [showRenameModal, setRenameModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
-
   const { t } = useTranslation();
 
   const dropdownClasses = cn('dropdown', { visible: show });
 
-  const onDelete = () => setDeleteModal(!showDeleteModal);
-  const onRename = () => setRenameModal(!showRenameModal);
-
-  const controlRenameModal = (event) => {
-    const { modal } = event.target.dataset;
-    if (modal !== undefined) setRenameModal(!showRenameModal);
+  const toggleModal = (modalState, setModalState) => {
+    setModalState(!modalState);
   };
 
-  const controlDeleteModal = (event) => {
+  const toggleRenameModal = () => {
+    toggleModal(showRenameModal, setRenameModal);
+  };
+
+  const toggleDeleteModal = () => {
+    toggleModal(showDeleteModal, setDeleteModal);
+  };
+
+  const controlModal = (event, modalState, setModalState) => {
     const { modal } = event.target.dataset;
-    if (modal !== undefined) setDeleteModal(!showDeleteModal);
+    if (modal !== undefined) toggleModal(modalState, setModalState);
   };
 
   const renameServer = ({ serverRename }) => {
     isNameAvailable(serverRename, token).then((flag) => {
       if (flag) socket.emit('renameChannel', { id: channelId, name: serverRename });
     });
-    
-    setRenameModal(!showRenameModal);
+
+    toggleRenameModal();
   };
 
-  const deleteServer = () => socket.emit('removeChannel', { id: channelId });
+  const deleteServer = () => {
+    socket.emit('removeChannel', { id: channelId });
+  };
 
   return (
     <>
-      <button
-        type="button"
-        onClick={(e) => onClick(e)}
-        className="dropdown-icon"
-      >
+      <button type="button" onClick={onClick} className="dropdown-icon">
         <img src={dropdownIcon} alt="dropdown icon" />
       </button>
 
       <div className={dropdownClasses}>
-        <button type="button" onClick={(e) => onDelete(e)}>{t('delete')}</button>
-        <button type="button" onClick={(e) => onRename(e)}>{t('rename')}</button>
+        <button type="button" onClick={toggleDeleteModal}>
+          {t('delete')}
+        </button>
+        <button type="button" onClick={toggleRenameModal}>
+          {t('rename')}
+        </button>
       </div>
 
       {/* Modal created in portal */}
-      <Modal controlModal={controlRenameModal} showModal={showRenameModal} headerName="Переименовать канал">
-        <RenameForm renameServer={renameServer} controlModal={controlRenameModal} />
+      <Modal controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} showModal={showRenameModal} headerName="Переименовать канал">
+        <RenameForm renameServer={renameServer} controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} />
       </Modal>
 
-      <Modal controlModal={controlDeleteModal} showModal={showDeleteModal} headerName="Удалить канал">
+      <Modal controlModal={(e) => controlModal(e, showDeleteModal, setDeleteModal)} showModal={showDeleteModal} headerName="Удалить канал">
         <h3 style={{ textAlign: 'center' }}>{t('sure')}</h3>
 
         <button
           type="button"
           className="btn-cancel"
-          onClick={() => deleteServer()}
+          onClick={deleteServer}
           style={{ margin: '0 10px 10px' }}
         >
           {t('delete')}
@@ -78,7 +82,7 @@ function Dropdown({
         <button
           type="button"
           className="btn-success"
-          onClick={(e) => controlDeleteModal(e)}
+          onClick={(e) => controlModal(e, showDeleteModal, setDeleteModal)}
           style={{ margin: '0 10px 10px' }}
           data-modal
         >

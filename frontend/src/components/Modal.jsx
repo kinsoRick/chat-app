@@ -11,7 +11,7 @@ function Modal({
 
   return createPortal((
     <div className={modalStyles} data-modal onClick={(e) => controlModal(e)}>
-      <div className="modal-content" style={{ width: '40%' }}>
+      <div className="modal-content" style={{ width: '50%' }}>
         <div className="pane">
           <h3 className="text-center">{headerName}</h3>
           <hr />

@@ -1,23 +1,21 @@
 import PropTypes from 'prop-types';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-function LoginForm({ onSubmit }) {
+const LoginForm = ({ onSubmit }) => {
+  const { t } = useTranslation();
+
   const loginSchema = Yup.object().shape({
     username: Yup.string()
-      .min(3, 'Минимум 3 символа')
-      .max(48, 'Максимум 48 символов')
-      .required('Обязательное поле'),
+      .min(3, t('usernameMinLength'))
+      .max(20, t('usernameMaxLength'))
+      .required(t('usernameRequired')),
     password: Yup.string()
-      .min(3, 'Минимум 3 символов')
-      .max(48, 'Максимум 48 символов')
-      .required('Обязательное поле'),
+      .required(t('passwordRequired')),
   });
-
-  const { t } = useTranslation();
 
   return (
     <Formik
@@ -25,33 +23,32 @@ function LoginForm({ onSubmit }) {
         username: '',
         password: '',
       }}
-      onSubmit={(values) => onSubmit(values)}
       validationSchema={loginSchema}
+      onSubmit={(values, { resetForm }) => {
+        onSubmit(values);
+        resetForm();
+      }}
     >
+      <Form className="login-form">
+        <div className="floating-field">
+          <Field id="username" name="username" placeholder={t('nickname')} />
+          <label htmlFor="username">{t('username')}</label>
+          <ErrorMessage name="username" component="div" className="input-error" />
+        </div>
 
-      {({ errors, touched }) => (
-        <Form className="login-form">
+        <div className="floating-field">
+          <Field id="password" name="password" type="password" placeholder={t('passwordPlaceholder')} />
+          <label htmlFor="password">{t('password')}</label>
+          <ErrorMessage name="password" component="div" className="input-error" />
+        </div>
 
-          <div className="floating-field">
-            <Field id="username" name="username" placeholder="nickname" />
-            <label htmlFor="username">{t('username')}</label>
-            {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
-          </div>
-
-          <div className="floating-field">
-            <Field id="password" name="password" type="password" placeholder="qwerty" />
-            <label htmlFor="password">{t('password')}</label>
-            {errors.password && touched.password ? <div className="input-error">{errors.password}</div> : null}
-          </div>
-
-          <button type="submit" className="btn">
-            {t('send')}
-          </button>
-        </Form>
-      )}
+        <button type="submit" className="btn">
+          {t('send')}
+        </button>
+      </Form>
     </Formik>
   );
-}
+};
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,

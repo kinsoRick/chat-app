@@ -35,7 +35,7 @@ function Register() {
         navigate('/');
       })
       .catch((err) => {
-        if (err.response.data.statusCode === 409) {
+        if (err.response?.data?.statusCode === 409) {
           setError(t('nicknameOwned'));
           toast.error(t('nicknameOwned'));
         }

@@ -2,26 +2,28 @@ import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
-import sendSvg from '../assets/send.svg';
+import sendSvg from '../../assets/send.svg';
 
 function MessageInput({ onSubmit }) {
   const { t } = useTranslation();
+
+  const handleSubmit = (values, { resetForm }) => {
+    const { message } = values;
+    const sanitizedMessage = filter.clean(message);
+    const newVal = { message: sanitizedMessage };
+    onSubmit(newVal);
+    resetForm();
+  };
+
   return (
     <Formik
       initialValues={{
         message: '',
       }}
-      onSubmit={(values, { resetForm }) => {
-        const { message } = values;
-        const newVal = { message: filter.clean(message) };
-        onSubmit(newVal);
-        resetForm();
-      }}
+      onSubmit={handleSubmit}
     >
       <Form className="message-input">
-
         <Field id="message" name="message" placeholder={t('message')} />
-
         <button type="submit">
           <img src={sendSvg} alt="Send icon" />
         </button>

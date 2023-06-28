@@ -32,6 +32,10 @@ const ru = {
     channelRemoved: 'Канал удалён',
     channelRenamed: 'Канал переименован',
     loginFailed: 'Неверные имя пользователя или пароль',
+    usernameMinLength: 'От 3 до 20 символов',
+    usernameMaxLength: 'От 3 до 20 символов',
+    usernameRequired: 'Имя пользователя обязательное поле!',
+    passwordRequired: 'Пароль обязательное поле!',
   },
 };
 

@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import PropTypes from 'prop-types';
-import { memo } from 'react';
 
 function Channel({
   name, active, children, onClick,
@@ -29,4 +28,3 @@ Channel.propTypes = {
 };
 
 export default Channel;
-export const MemoChannel = memo(Channel);

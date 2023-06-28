@@ -1,22 +1,45 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
-function Channels({ children }) {
+import Channel from './Channel';
+import Dropdown from '../../components/Dropdown';
+
+import { actions } from '../../store/channelsSlice';
+
+function Channels({
+  channels, currentChannelId,
+  toggleDropdown, activeDropdown
+}) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const childrenCount = channels.length;
 
   return (
     <div className="channels">
       <span className="channels-header">{t('channels')}</span>
-      <span className="channels-notifications ml-auto">{children.length}</span>
+      <span className="channels-notifications ml-auto">{childrenCount}</span>
       <ul className="channels-items" style={{ padding: 0 }}>
-        {children}
+        {channels.map(({ id, name, removable }) => (
+          <Channel
+            key={name}
+            name={name}
+            active={currentChannelId === id}
+            onClick={() => dispatch(actions.setCurrentChannel(id))}
+          >
+            {removable && <Dropdown channelId={id} show={activeDropdown === name} onClick={() => toggleDropdown(name)} />}
+          </Channel>
+        ))}
       </ul>
     </div>
   );
 }
 
 Channels.propTypes = {
-  children: PropTypes.node.isRequired,
+  channels: PropTypes.array.isRequired,
+  currentChannelId: PropTypes.number.isRequired,
+  toggleDropdown: PropTypes.func.isRequired,
+  activeDropdown: PropTypes.string.isRequired,
 };
 
 export default Channels;

@@ -1,110 +1,59 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  useContext, useEffect, useMemo, useState,
-} from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import ServerSidebar, { Channels } from '../../components/ServerSidebar';
-import { MemoServerHeader } from '../../components/ServerSidebar/Header';
-import { MemoChannel } from '../../components/ServerSidebar/Channel';
-import Dropdown from '../../components/Dropdown';
-import MessageInput from '../../components/MessageInput';
-import MessageListener from '../../components/MessageListener';
+import ServerSidebar, { Channels, ServerHeader } from '../../components/ServerSidebar';
+import ServerContent from '../../components/ServerContent';
 import AuthContext from '../../contexts/AuthContext';
 
 import getData from '../../store/actions/getData';
-import socket from '../../socket';
-import { actions as channelsActions } from '../../store/channelsSlice';
 import './index.scss';
 
 function Home() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    auth, token, username, setToken, setUsername,
-  } = useContext(AuthContext);
+  const { auth, token} = useContext(AuthContext);
 
   const [activeDropdown, setActiveDropdown] = useState('');
 
-  const toggleDropdown = (name) => {
-    if (activeDropdown === name) setActiveDropdown('');
-    else setActiveDropdown(name);
-  };
+  useEffect(() => {
+    if (!auth) navigate('/login');
+    dispatch(getData(token));
+  }, [auth, dispatch, navigate, token]);
 
-  // CHANNELS HANDLING
   const channels = Object.values(useSelector((state) => state.channels.entities));
   const channelsLoaded = useSelector((state) => state.channels.status) === 'fulfilled';
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const currentChannel = useMemo(
-    () => channels.filter((channel) => channel.id === currentChannelId)[0] ?? null,
-    [channels, currentChannelId],
-  );
 
-  const messages = useSelector((state) => state.messages.entities);
-  const filteredMessages = useMemo(
-    () => Object.values(messages).filter((entity) => entity.channelId === currentChannelId),
-    [messages, currentChannelId],
-  );
+  const currentChannel = useMemo(() => channels.find((channel) => channel.id === currentChannelId) || null, [
+    channels,
+    currentChannelId,
+  ]);
 
-  useEffect(() => {
-    if (!auth) navigate('/login');
-    if (!channelsLoaded) dispatch(getData(token));
-  }, [auth, channelsLoaded, dispatch, navigate, token]);
-
-  const sendMessage = ({ message }) => {
-    if (message === '') return;
-    socket.emit('newMessage', { body: message, channelId: currentChannelId, username });
-  };
-
-  const logout = () => {
-    setToken('');
-    setUsername('');
+  const toggleDropdown = (name) => {
+    setActiveDropdown((prevState) => (prevState === name ? '' : name));
   };
 
   return (
     <section className="home-page">
       <ServerSidebar>
-        <MemoServerHeader>{t('chat')}</MemoServerHeader>
+        <ServerHeader>{t('chat')}</ServerHeader>
+        <Channels
+          channels={channels}
+          currentChannelId={currentChannelId}
 
-        <Channels>
-          {channels.map(({ id, name, removable }) => (
-            <MemoChannel
-              key={id}
-              name={name}
-              active={currentChannelId === id}
-              onClick={() => dispatch(channelsActions.setCurrentChannel(id))}
-            >
-              {removable
-                && (
-                  <Dropdown
-                    channelId={id}
-                    show={activeDropdown === name}
-                    onClick={() => toggleDropdown(name)}
-                  />
-                )}
-            </MemoChannel>
-          ))}
-        </Channels>
+          activeDropdown={activeDropdown}
+          toggleDropdown={toggleDropdown}
+        />
       </ServerSidebar>
 
-      {
-        channelsLoaded
-        && (
-          <main className="server-content">
-            <div className="content-header">
-              <div className="main-info">
-                <span className="channel-name">{`# ${currentChannel.name}`}</span>
-                <span className="channel-messages">{t('message', { count: filteredMessages.length })}</span>
-              </div>
-              <button type="button" className="ml-auto btn-logout" onClick={logout}>{t('logout')}</button>
-            </div>
-            <MessageListener channelId={currentChannel.id} />
-            <MessageInput onSubmit={(message) => sendMessage(message)} />
-          </main>
-        )
-      }
+      {channelsLoaded && (
+        <ServerContent
+          currentChannel={currentChannel}
+        />
+      )}
     </section>
   );
 }

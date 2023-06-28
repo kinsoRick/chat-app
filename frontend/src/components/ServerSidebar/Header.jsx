@@ -49,6 +49,5 @@ ServerHeader.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default ServerHeader;
+export default memo(ServerHeader);
 
-export const MemoServerHeader = memo(ServerHeader);
