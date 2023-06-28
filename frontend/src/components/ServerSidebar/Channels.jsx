@@ -1,15 +1,16 @@
+/* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import Channel from './Channel';
-import Dropdown from '../../components/Dropdown';
+import Dropdown from '../Dropdown';
 
 import { actions } from '../../store/channelsSlice';
 
 function Channels({
   channels, currentChannelId,
-  toggleDropdown, activeDropdown
+  toggleDropdown, activeDropdown,
 }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -27,7 +28,14 @@ function Channels({
             active={currentChannelId === id}
             onClick={() => dispatch(actions.setCurrentChannel(id))}
           >
-            {removable && <Dropdown channelId={id} show={activeDropdown === name} onClick={() => toggleDropdown(name)} />}
+            {removable
+            && (
+              <Dropdown
+                channelId={id}
+                show={activeDropdown === name}
+                onClick={() => toggleDropdown(name)}
+              />
+            )}
           </Channel>
         ))}
       </ul>
@@ -36,7 +44,7 @@ function Channels({
 }
 
 Channels.propTypes = {
-  channels: PropTypes.array.isRequired,
+  channels: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentChannelId: PropTypes.number.isRequired,
   toggleDropdown: PropTypes.func.isRequired,
   activeDropdown: PropTypes.string.isRequired,

@@ -64,7 +64,10 @@ function Dropdown({ onClick, channelId, show = false }) {
 
       {/* Modal created in portal */}
       <Modal controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} showModal={showRenameModal} headerName="Переименовать канал">
-        <RenameForm renameServer={renameServer} controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} />
+        <RenameForm
+          renameServer={renameServer}
+          controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)}
+        />
       </Modal>
 
       <Modal controlModal={(e) => controlModal(e, showDeleteModal, setDeleteModal)} showModal={showDeleteModal} headerName="Удалить канал">

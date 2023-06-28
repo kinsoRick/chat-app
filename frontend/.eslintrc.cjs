@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-undef
 module.exports = {
   env: {
     browser: true,
@@ -22,12 +21,5 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'no-param-reassign': 'off',
-    'import/no-extraneous-dependencies': [
-      'error',
-      {
-        projectDependencies: false,
-      },
-    ],
   },
-  
 };

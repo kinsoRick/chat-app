@@ -1,6 +1,5 @@
-import { useState, memo } from 'react';
+import { useState, memo, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
 
 import AddForm from '../Forms/AddForm';
 import Modal from '../Modal';
@@ -21,7 +20,7 @@ function ServerHeader({ children }) {
   const newServer = ({ serverName }) => {
     isNameAvailable(serverName, token).then((flag) => {
       if (flag) socket.emit('newChannel', { name: serverName });
-    })
+    });
     setShowModal(!showModal);
   };
 
@@ -50,4 +49,3 @@ ServerHeader.propTypes = {
 };
 
 export default memo(ServerHeader);
-

@@ -9,7 +9,6 @@ import RegisterForm from '../../components/Forms/RegisterForm';
 import './index.scss';
 import AuthContext from '../../contexts/AuthContext';
 
-
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
   width: '100vw',
@@ -69,7 +68,10 @@ function Register() {
             <RegisterForm onSubmit={register} error={error} />
             <span>
               { t('haveAccount')}
-              <a href="/login"> {t('goLogin')}</a>
+              <a href="/login">
+                {' '}
+                {t('goLogin')}
+              </a>
             </span>
           </div>
 

@@ -16,7 +16,8 @@ function MessageListener({ channelId }) {
   const { t } = useTranslation();
 
   const messages = useSelector((state) => state.messages.entities);
-  const filteredMessages = Object.values(messages).filter((entity) => entity.channelId === channelId);
+  const filteredMessages = Object.values(messages)
+    .filter((entity) => entity.channelId === channelId);
 
   useEffect(() => {
     const handleNewMessage = (payload) => {

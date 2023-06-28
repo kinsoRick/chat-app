@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-
 function RegisterForm({ onSubmit, error }) {
   const { t } = useTranslation();
 
@@ -57,7 +56,7 @@ function RegisterForm({ onSubmit, error }) {
             </div>
 
             <button type="submit" className="btn">
-            {t('send')}
+              {t('send')}
             </button>
           </Form>
         )}

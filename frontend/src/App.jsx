@@ -5,8 +5,7 @@ import {
 import { useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { Provider as ErrorProvider } from '@rollbar/react';
-import { ErrorBoundary } from '@rollbar/react';
+import { Provider as ErrorProvider, ErrorBoundary } from '@rollbar/react';
 import AuthContext from './contexts/AuthContext';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';

@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import SecurityIllustration from '../../assets/security.svg';
 import LoginForm from '../../components/Forms/LoginForm';
 import './index.scss';
 import AuthContext from '../../contexts/AuthContext';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
@@ -64,7 +64,10 @@ function Login() {
 
             <span>
               {t('notAccount')}
-              <a href="/register"> {t('register')}</a>
+              <a href="/register">
+                {' '}
+                {t('register')}
+              </a>
             </span>
           </div>
 

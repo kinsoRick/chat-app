@@ -1,13 +1,13 @@
-import { useTranslation } from "react-i18next";
-import { useContext } from "react";
-import { useSelector } from "react-redux";
+import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import MessageInput from "./MessageInput";
-import MessageListener from "./MessageListener";
+import MessageInput from './MessageInput';
+import MessageListener from './MessageListener';
 
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from '../../contexts/AuthContext';
 import socket from '../../socket';
-
 
 function ServerContent({ currentChannel: { id, name } }) {
   const { t } = useTranslation();
@@ -48,5 +48,12 @@ function ServerContent({ currentChannel: { id, name } }) {
     </main>
   );
 }
+
+ServerContent.propTypes = {
+  currentChannel: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default ServerContent;

@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import {
+  useContext, useEffect, useMemo, useState,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +16,7 @@ function Home() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth, token} = useContext(AuthContext);
+  const { auth, token } = useContext(AuthContext);
 
   const [activeDropdown, setActiveDropdown] = useState('');
 
@@ -27,10 +29,10 @@ function Home() {
   const channelsLoaded = useSelector((state) => state.channels.status) === 'fulfilled';
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
-  const currentChannel = useMemo(() => channels.find((channel) => channel.id === currentChannelId) || null, [
-    channels,
-    currentChannelId,
-  ]);
+  const currentChannel = useMemo(
+    () => channels.find((channel) => channel.id === currentChannelId) || null,
+    [channels, currentChannelId],
+  );
 
   const toggleDropdown = (name) => {
     setActiveDropdown((prevState) => (prevState === name ? '' : name));
@@ -43,7 +45,6 @@ function Home() {
         <Channels
           channels={channels}
           currentChannelId={currentChannelId}
-
           activeDropdown={activeDropdown}
           toggleDropdown={toggleDropdown}
         />

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import {
+  Formik, Field, Form, ErrorMessage,
+} from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-const LoginForm = ({ onSubmit }) => {
+function LoginForm({ onSubmit }) {
   const { t } = useTranslation();
 
   const loginSchema = Yup.object().shape({
@@ -48,7 +50,7 @@ const LoginForm = ({ onSubmit }) => {
       </Form>
     </Formik>
   );
-};
+}
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
