@@ -6,6 +6,8 @@ import SecurityIllustration from '../../assets/security.svg';
 import LoginForm from '../../components/Forms/LoginForm';
 import './index.scss';
 import AuthContext from '../../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
@@ -17,12 +19,20 @@ const background = {
 function Login() {
   const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const authorize = (values) => {
-    axios.post('/api/v1/login', values).then((res) => {
-      setToken(res.data.token);
-      setUsername(res.data.username);
-      navigate('/');
-    });
+    axios
+      .post('/api/v1/login', values).then((res) => {
+        setToken(res.data.token);
+        setUsername(res.data.username);
+        navigate('/');
+      })
+      .catch((err) => {
+        if (err.response.data.statusCode === 401) {
+          toast.error(t('loginFailed'));
+        }
+      });
   };
 
   return (
@@ -48,13 +58,13 @@ function Login() {
           </div>
 
           <div className="right-box">
-            <h1>Войти</h1>
+            <h1>{t('login')}</h1>
 
             <LoginForm onSubmit={(values) => authorize(values)} />
 
             <span>
-              Нет аккаунта?
-              <a href="/register"> Зарегистрируйтесь!</a>
+              {t('notAccount')}
+              <a href="/register"> {t('register')}</a>
             </span>
           </div>
 

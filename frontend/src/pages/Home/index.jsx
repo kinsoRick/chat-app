@@ -3,6 +3,7 @@ import {
   useContext, useEffect, useMemo, useState,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import ServerSidebar, { Channels } from '../../components/ServerSidebar';
 import { MemoServerHeader } from '../../components/ServerSidebar/Header';
@@ -18,6 +19,7 @@ import { actions as channelsActions } from '../../store/channelsSlice';
 import './index.scss';
 
 function Home() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -64,7 +66,7 @@ function Home() {
   return (
     <section className="home-page">
       <ServerSidebar>
-        <MemoServerHeader>Чат</MemoServerHeader>
+        <MemoServerHeader>{t('chat')}</MemoServerHeader>
 
         <Channels>
           {channels.map(({ id, name, removable }) => (
@@ -94,9 +96,9 @@ function Home() {
             <div className="content-header">
               <div className="main-info">
                 <span className="channel-name">{`# ${currentChannel.name}`}</span>
-                <span className="channel-messages">{`${filteredMessages.length} сообщений`}</span>
+                <span className="channel-messages">{t('message', { count: filteredMessages.length })}</span>
               </div>
-              <button type="button" className="ml-auto btn-logout" onClick={logout}>Выход</button>
+              <button type="button" className="ml-auto btn-logout" onClick={logout}>{t('logout')}</button>
             </div>
             <MessageListener channelId={currentChannel.id} />
             <MessageInput onSubmit={(message) => sendMessage(message)} />

@@ -22,5 +22,12 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
     'no-param-reassign': 'off',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        projectDependencies: false,
+      },
+    ],
   },
+  
 };

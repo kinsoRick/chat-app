@@ -1,10 +1,14 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+
 import SecurityIllustration from '../../assets/security.svg';
 import RegisterForm from '../../components/Forms/RegisterForm';
 import './index.scss';
 import AuthContext from '../../contexts/AuthContext';
+
 
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
@@ -16,6 +20,7 @@ const background = {
 function Register() {
   const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [error, setError] = useState(null);
   const register = (values) => {
@@ -31,7 +36,8 @@ function Register() {
       })
       .catch((err) => {
         if (err.response.data.statusCode === 409) {
-          setError('Такой ник уже занят!');
+          setError(t('nicknameOwned'));
+          toast.error(t('nicknameOwned'));
         }
       });
   };
@@ -59,11 +65,11 @@ function Register() {
           </div>
 
           <div className="right-box">
-            <h1>Зарегистрироваться</h1>
+            <h1>{t('toRegister')}</h1>
             <RegisterForm onSubmit={register} error={error} />
             <span>
-              Есть аккаунт?
-              <a href="/login"> Войдите!</a>
+              { t('haveAccount')}
+              <a href="/login"> {t('goLogin')}</a>
             </span>
           </div>
 

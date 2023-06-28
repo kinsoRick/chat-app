@@ -4,7 +4,9 @@ import {
 } from 'react-router-dom';
 import { useMemo } from 'react';
 import { Provider } from 'react-redux';
-
+import { ToastContainer } from 'react-toastify';
+import { Provider as ErrorProvider } from '@rollbar/react';
+import { ErrorBoundary } from '@rollbar/react';
 import AuthContext from './contexts/AuthContext';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
@@ -13,6 +15,11 @@ import Register from './pages/Register';
 
 import store from './store';
 import useLocalStorage from './hooks/useLocalStorage';
+
+const rollbarConfig = {
+  accessToken: 'b9fa851c18ea413d9bb1df620f6a4dd6',
+  environment: 'testenv',
+};
 
 function App() {
   const [token, setToken] = useLocalStorage('token', '');
@@ -48,7 +55,23 @@ function App() {
   return (
     <Provider store={store}>
       <AuthContext.Provider value={contextValues}>
-        <RouterProvider router={router} />
+        <ErrorProvider config={rollbarConfig}>
+          <ErrorBoundary>
+            <RouterProvider router={router} />
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </ErrorBoundary>
+        </ErrorProvider>
       </AuthContext.Provider>
     </Provider>
 

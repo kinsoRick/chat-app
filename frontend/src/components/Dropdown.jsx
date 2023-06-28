@@ -1,16 +1,18 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import socket from '../socket';
 import Modal from './Modal';
 import dropdownIcon from '../assets/dropdown.svg';
 import RenameForm from './Forms/RenameForm';
+import AuthContext from '../contexts/AuthContext';
 
 function Dropdown({
   onClick, channelId, show = false,
 }) {
+  const { token } = useContext(AuthContext);
   const [showRenameModal, setRenameModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
@@ -32,7 +34,10 @@ function Dropdown({
   };
 
   const renameServer = ({ serverRename }) => {
-    socket.emit('renameChannel', { id: channelId, name: serverRename });
+    isNameAvailable(serverRename, token).then((flag) => {
+      if (flag) socket.emit('renameChannel', { id: channelId, name: serverRename });
+    });
+    
     setRenameModal(!showRenameModal);
   };
 
@@ -49,8 +54,8 @@ function Dropdown({
       </button>
 
       <div className={dropdownClasses}>
-        <button type="button" onClick={(e) => onDelete(e)}>Удалить</button>
-        <button type="button" onClick={(e) => onRename(e)}>Переименовать</button>
+        <button type="button" onClick={(e) => onDelete(e)}>{t('delete')}</button>
+        <button type="button" onClick={(e) => onRename(e)}>{t('rename')}</button>
       </div>
 
       {/* Modal created in portal */}
@@ -59,7 +64,7 @@ function Dropdown({
       </Modal>
 
       <Modal controlModal={controlDeleteModal} showModal={showDeleteModal} headerName="Удалить канал">
-        <h3 style={{ textAlign: 'center' }}>Уверены?</h3>
+        <h3 style={{ textAlign: 'center' }}>{t('sure')}</h3>
 
         <button
           type="button"
@@ -67,7 +72,7 @@ function Dropdown({
           onClick={() => deleteServer()}
           style={{ margin: '0 10px 10px' }}
         >
-          Удалить
+          {t('delete')}
         </button>
 
         <button
@@ -77,7 +82,7 @@ function Dropdown({
           style={{ margin: '0 10px 10px' }}
           data-modal
         >
-          Отменить
+          {t('cancel')}
         </button>
       </Modal>
     </>
