@@ -15,7 +15,11 @@ function AddForm({ newServer, controlModal }) {
       }}
     >
       <Form className="server-form">
-        <Field className="server-name-input" id="serverName" name="serverName" placeholder="Название сервера" />
+        <div className="floating-field" style={{ width: '100%' }}>
+          <Field className="server-name-input" id="serverName" name="serverName" placeholder={t('serverName')} />
+          <label htmlFor="serverName">{t('serverName')}</label>
+        </div>
+
         <br />
 
         <button type="submit" className="btn-success">{t('send')}</button>

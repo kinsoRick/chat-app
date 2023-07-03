@@ -50,6 +50,7 @@ function Dropdown({ onClick, channelId, show = false }) {
   return (
     <>
       <button type="button" onClick={onClick} className="dropdown-icon">
+        <span className="visually-hidden">Управление каналом</span>
         <img src={dropdownIcon} alt="dropdown icon" />
       </button>
 
@@ -75,7 +76,7 @@ function Dropdown({ onClick, channelId, show = false }) {
 
         <button
           type="button"
-          className="btn-cancel"
+          className="btn-danger"
           onClick={deleteServer}
           style={{ margin: '0 10px 10px' }}
         >

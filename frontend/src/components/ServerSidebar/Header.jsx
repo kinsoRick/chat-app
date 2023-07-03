@@ -34,6 +34,7 @@ function ServerHeader({ children }) {
         data-modal
       >
         <i className="plus-icon" data-modal />
+        <span className="visually-hidden">+</span>
       </button>
 
       {/* Modal created in Portal */}

@@ -14,7 +14,7 @@ function RegisterForm({ onSubmit, error }) {
       .max(20, t('errorType'))
       .required('Обязательное поле'),
     password: Yup.string()
-      .min(6, 'Минимум 6 символов')
+      .min(6, t('passwordLengthMin'))
       .max(48, 'Максимум 48 символов')
       .required('Обязательное поле'),
     retypePassword: Yup.string()
@@ -38,7 +38,7 @@ function RegisterForm({ onSubmit, error }) {
 
             <div className="floating-field">
               <Field id="username" name="username" placeholder="nickname" />
-              <label htmlFor="username">{t('username')}</label>
+              <label htmlFor="username">{t('usernameRegister')}</label>
               {error && <div className="input-error">{error}</div>}
               {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
             </div>

@@ -16,7 +16,11 @@ function RenameForm({ renameServer, controlModal }) {
       }}
     >
       <Form className="server-form">
-        <Field className="server-name-input" id="serverRename" name="serverRename" placeholder="Новое название сервера" />
+        <div className="floating-field" style={{ width: '100%' }}>
+          <Field className="server-name-input" id="serverRename" name="serverRename" placeholder={t('serverRename')} />
+          <label htmlFor="serverRename">{t('serverRename')}</label>
+        </div>
+        
         <br />
         <button type="submit" className="btn-success">{t('rename')}</button>
         <button

@@ -23,7 +23,7 @@ function MessageInput({ onSubmit }) {
       onSubmit={handleSubmit}
     >
       <Form className="message-input">
-        <Field id="message" name="message" placeholder={t('message')} />
+        <Field id="message" name="message" placeholder={t('message')} aria-label="Новое сообщение" />
         <button type="submit">
           <img src={sendSvg} alt="Send icon" />
         </button>

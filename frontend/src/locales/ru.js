@@ -10,9 +10,10 @@ const ru = {
     send: 'Отправить',
     password: 'Пароль',
     username: 'Ваш ник',
+    usernameRegister: 'Имя пользователя',
     retypePassword: 'Подтвердите пароль',
-    serverName: 'Название сервера',
-    serverRename: 'Новое название сервера',
+    serverName: 'Имя канала',
+    serverRename: 'Имя канала',
     register: 'Регистрация',
     notAccount: 'Нет аккаунта?',
     login: 'Войти',
@@ -36,6 +37,7 @@ const ru = {
     usernameMaxLength: 'От 3 до 20 символов',
     usernameRequired: 'Имя пользователя обязательное поле!',
     passwordRequired: 'Пароль обязательное поле!',
+    passwordLengthMin: 'Не менее 6 символов',
   },
 };
 
