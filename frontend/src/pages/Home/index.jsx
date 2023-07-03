@@ -12,7 +12,7 @@ import AuthContext from '../../contexts/AuthContext';
 import getData from '../../store/actions/getData';
 import './index.scss';
 
-function Home() {
+const Home = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,6 +57,6 @@ function Home() {
       )}
     </section>
   );
-}
+};
 
 export default Home;

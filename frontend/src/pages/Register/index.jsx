@@ -16,7 +16,7 @@ const background = {
   backgroundSize: 'cover',
 };
 
-function Register() {
+const Register = () => {
   const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -79,6 +79,6 @@ function Register() {
       </main>
     </div>
   );
-}
+};
 
 export default Register;

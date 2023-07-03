@@ -16,7 +16,7 @@ const background = {
   backgroundSize: 'cover',
 };
 
-function Login() {
+const Login = () => {
   const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -75,6 +75,6 @@ function Login() {
       </main>
     </div>
   );
-}
+};
 
 export default Login;

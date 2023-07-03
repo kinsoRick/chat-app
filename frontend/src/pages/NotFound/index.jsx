@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import './index.scss';
 
-function NotFound() {
+const NotFound = () => {
   const { t } = useTranslation();
   return (
     <div className="container">
@@ -10,6 +10,6 @@ function NotFound() {
       <a href="/">{t('backToHome')}</a>
     </div>
   );
-}
+};
 
 export default NotFound;
