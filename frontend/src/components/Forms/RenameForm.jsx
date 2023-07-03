@@ -20,7 +20,7 @@ function RenameForm({ renameServer, controlModal }) {
           <Field className="server-name-input" id="serverRename" name="serverRename" placeholder={t('serverRename')} />
           <label htmlFor="serverRename">{t('serverRename')}</label>
         </div>
-        
+
         <br />
         <button type="submit" className="btn-success">{t('rename')}</button>
         <button

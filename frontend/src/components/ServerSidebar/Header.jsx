@@ -38,9 +38,11 @@ function ServerHeader({ children }) {
       </button>
 
       {/* Modal created in Portal */}
-      <Modal controlModal={controlModal} showModal={showModal} headerName="Добавить канал">
-        <AddForm newServer={newServer} controlModal={controlModal} />
-      </Modal>
+      {showModal && (
+        <Modal controlModal={controlModal} showModal={showModal} headerName="Добавить канал">
+          <AddForm newServer={newServer} controlModal={controlModal} />
+        </Modal>
+      )}
     </div>
   );
 }

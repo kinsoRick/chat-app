@@ -64,12 +64,14 @@ function Dropdown({ onClick, channelId, show = false }) {
       </div>
 
       {/* Modal created in portal */}
-      <Modal controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} showModal={showRenameModal} headerName="Переименовать канал">
-        <RenameForm
-          renameServer={renameServer}
-          controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)}
-        />
-      </Modal>
+      {showRenameModal && (
+        <Modal controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} showModal={showRenameModal} headerName="Переименовать канал">
+          <RenameForm
+            renameServer={renameServer}
+            controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)}
+          />
+        </Modal>
+      )}
 
       <Modal controlModal={(e) => controlModal(e, showDeleteModal, setDeleteModal)} showModal={showDeleteModal} headerName="Удалить канал">
         <h3 style={{ textAlign: 'center' }}>{t('sure')}</h3>
