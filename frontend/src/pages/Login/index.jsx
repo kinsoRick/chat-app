@@ -64,7 +64,7 @@ function Login() {
 
             <span>
               {t('notAccount')}
-              <a href="/register">
+              <a href="/signup">
                 {' '}
                 {t('register')}
               </a>
