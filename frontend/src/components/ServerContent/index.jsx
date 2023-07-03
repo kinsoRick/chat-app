@@ -9,7 +9,7 @@ import MessageListener from './MessageListener';
 import AuthContext from '../../contexts/AuthContext';
 import socket from '../../socket';
 
-function ServerContent({ currentChannel: { id, name } }) {
+const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
 
   const { setToken, setUsername, username } = useContext(AuthContext);
@@ -47,7 +47,7 @@ function ServerContent({ currentChannel: { id, name } }) {
       <MessageInput onSubmit={(message) => sendMessage(message)} />
     </main>
   );
-}
+};
 
 ServerContent.propTypes = {
   currentChannel: PropTypes.shape({

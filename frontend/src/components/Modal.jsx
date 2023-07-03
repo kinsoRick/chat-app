@@ -4,9 +4,9 @@
 import cn from 'classnames';
 import { createPortal } from 'react-dom';
 
-function Modal({
+const Modal = ({
   children, showModal, controlModal, headerName,
-}) {
+}) => {
   const modalStyles = cn('modal', { show: showModal });
 
   return createPortal((
@@ -19,6 +19,6 @@ function Modal({
         </div>
       </div>
     </div>), document.body);
-}
+};
 
 export default Modal;

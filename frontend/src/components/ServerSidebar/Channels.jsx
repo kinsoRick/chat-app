@@ -8,10 +8,10 @@ import Dropdown from '../Dropdown';
 
 import { actions } from '../../store/channelsSlice';
 
-function Channels({
+const Channels = ({
   channels, currentChannelId,
   toggleDropdown, activeDropdown,
-}) {
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const childrenCount = channels.length;
@@ -41,7 +41,7 @@ function Channels({
       </ul>
     </div>
   );
-}
+};
 
 Channels.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.object).isRequired,

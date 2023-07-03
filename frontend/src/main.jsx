@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import filter from 'leo-profanity';
 
 import './index.scss';
 import App from './App';

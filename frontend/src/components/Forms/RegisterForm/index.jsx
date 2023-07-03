@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-function RegisterForm({ onSubmit, error }) {
+const RegisterForm = ({ onSubmit, error }) => {
   const { t } = useTranslation();
 
   const loginSchema = Yup.object().shape({
@@ -63,7 +63,7 @@ function RegisterForm({ onSubmit, error }) {
       </Formik>
     </div>
   );
-}
+};
 
 RegisterForm.defaultProps = {
   error: null,

@@ -2,7 +2,7 @@ import { Formik, Form, Field } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-function AddForm({ newServer, controlModal }) {
+const AddForm = ({ newServer, controlModal }) => {
   const { t } = useTranslation();
   return (
     <Formik
@@ -34,7 +34,7 @@ function AddForm({ newServer, controlModal }) {
       </Form>
     </Formik>
   );
-}
+};
 
 AddForm.propTypes = {
   newServer: PropTypes.func.isRequired,

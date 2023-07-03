@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
 
-function Message({ username, text }) {
+const Message = ({ username, text }) => {
   const firstChar = username.substring(0, 1);
   return (
     <div className="message">
@@ -12,7 +12,7 @@ function Message({ username, text }) {
       </p>
     </div>
   );
-}
+};
 
 Message.propTypes = {
   text: PropTypes.string.isRequired,

@@ -2,7 +2,7 @@ import { Formik, Field, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-function RenameForm({ renameServer, controlModal }) {
+const RenameForm = ({ renameServer, controlModal }) => {
   const { t } = useTranslation();
 
   return (
@@ -34,7 +34,7 @@ function RenameForm({ renameServer, controlModal }) {
       </Form>
     </Formik>
   );
-}
+};
 
 RenameForm.propTypes = {
   renameServer: PropTypes.func.isRequired,

@@ -11,7 +11,7 @@ import { actions as messagesActions } from '../../store/messagesSlice';
 import Message from './Message';
 import socket from '../../socket';
 
-function MessageListener({ channelId }) {
+const MessageListener = ({ channelId }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -63,7 +63,7 @@ function MessageListener({ channelId }) {
       ))}
     </div>
   );
-}
+};
 
 MessageListener.propTypes = {
   channelId: PropTypes.number.isRequired,

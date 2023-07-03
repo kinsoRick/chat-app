@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import sendSvg from '../../assets/send.svg';
 
-function MessageInput({ onSubmit }) {
+const MessageInput = ({ onSubmit }) => {
   const { t } = useTranslation();
 
   const handleSubmit = (values, { resetForm }) => {
@@ -30,7 +30,7 @@ function MessageInput({ onSubmit }) {
       </Form>
     </Formik>
   );
-}
+};
 
 MessageInput.propTypes = {
   onSubmit: PropTypes.func.isRequired,

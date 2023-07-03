@@ -5,13 +5,11 @@ import ServerHeader from './Header';
 import Channel from './Channel';
 import Channels from './Channels';
 
-function ServerSidebar({ children }) {
-  return (
-    <aside className="server-sidebar">
-      {children}
-    </aside>
-  );
-}
+const ServerSidebar = ({ children }) => (
+  <aside className="server-sidebar">
+    {children}
+  </aside>
+);
 
 ServerSidebar.propTypes = {
   children: PropTypes.node.isRequired,

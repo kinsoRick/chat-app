@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
-function Channel({
+const Channel = ({
   name, active, children, onClick,
-}) {
+}) => {
   const mainClasses = cn('channel', { active });
 
   return (
@@ -12,7 +12,7 @@ function Channel({
       {children}
     </button>
   );
-}
+};
 
 Channel.defaultProps = {
   active: false,

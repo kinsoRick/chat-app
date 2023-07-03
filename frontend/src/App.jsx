@@ -20,7 +20,7 @@ const rollbarConfig = {
   environment: 'testenv',
 };
 
-function App() {
+const App = () => {
   const [token, setToken] = useLocalStorage('token', '');
   const [username, setUsername] = useLocalStorage('username', '');
   const auth = token !== '';
@@ -75,6 +75,6 @@ function App() {
     </Provider>
 
   );
-}
+};
 
 export default App;

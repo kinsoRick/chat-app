@@ -8,7 +8,7 @@ import isNameAvailable from '../../utils/isNameAvailable';
 
 import AuthContext from '../../contexts/AuthContext';
 
-function ServerHeader({ children }) {
+const ServerHeader = ({ children }) => {
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
@@ -45,7 +45,7 @@ function ServerHeader({ children }) {
       )}
     </div>
   );
-}
+};
 
 ServerHeader.propTypes = {
   children: PropTypes.node.isRequired,

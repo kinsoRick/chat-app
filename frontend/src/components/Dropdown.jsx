@@ -10,7 +10,7 @@ import RenameForm from './Forms/RenameForm';
 import isNameAvailable from '../utils/isNameAvailable';
 import AuthContext from '../contexts/AuthContext';
 
-function Dropdown({ onClick, channelId, show = false }) {
+const Dropdown = ({ onClick, channelId, show = false }) => {
   const { token } = useContext(AuthContext);
   const [showRenameModal, setRenameModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
@@ -97,7 +97,7 @@ function Dropdown({ onClick, channelId, show = false }) {
       </Modal>
     </>
   );
-}
+};
 
 Dropdown.defaultProps = {
   show: false,

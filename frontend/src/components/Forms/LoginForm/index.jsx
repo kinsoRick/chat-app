@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-function LoginForm({ onSubmit }) {
+const LoginForm = ({ onSubmit }) => {
   const { t } = useTranslation();
 
   const loginSchema = Yup.object().shape({
@@ -50,7 +50,7 @@ function LoginForm({ onSubmit }) {
       </Form>
     </Formik>
   );
-}
+};
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
