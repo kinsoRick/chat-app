@@ -4,6 +4,7 @@
 import cn from 'classnames';
 import { createPortal } from 'react-dom';
 
+// TODO: ВЫНЕСТИ СОСТОЯНИЕ МОДАЛОК В ОТДЕЛЬНЫЙ СЛАЙС
 const Modal = ({
   children, showModal, controlModal, headerName,
 }) => {

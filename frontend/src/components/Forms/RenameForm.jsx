@@ -11,6 +11,7 @@ const RenameForm = ({ renameServer, controlModal }) => {
         serverRename: '',
       }}
       onSubmit={(values, { resetForm }) => {
+        // TODO: Обработать ошибки + async
         renameServer(values);
         resetForm();
       }}

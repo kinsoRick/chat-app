@@ -21,6 +21,7 @@ const Home = () => {
   const [activeDropdown, setActiveDropdown] = useState('');
 
   useEffect(() => {
+    // TODO: Создать Private Route
     if (!auth) navigate('/login');
     dispatch(getData(token));
   }, [auth, dispatch, navigate, token]);

@@ -10,6 +10,7 @@ const AddForm = ({ newServer, controlModal }) => {
         serverName: '',
       }}
       onSubmit={(values, { resetForm }) => {
+        // TODO: Обработать ошибки + async
         newServer(values);
         resetForm();
       }}

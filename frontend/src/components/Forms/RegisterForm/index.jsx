@@ -8,7 +8,7 @@ import './index.scss';
 const RegisterForm = ({ onSubmit, error }) => {
   const { t } = useTranslation();
 
-  const loginSchema = Yup.object().shape({
+  const registerSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, t('errorType'))
       .max(20, t('errorType'))
@@ -30,7 +30,7 @@ const RegisterForm = ({ onSubmit, error }) => {
           retypePassword: '',
         }}
         onSubmit={(values) => onSubmit(values)}
-        validationSchema={loginSchema}
+        validationSchema={registerSchema}
       >
 
         {({ errors, touched }) => (
@@ -63,10 +63,6 @@ const RegisterForm = ({ onSubmit, error }) => {
       </Formik>
     </div>
   );
-};
-
-RegisterForm.defaultProps = {
-  error: null,
 };
 
 RegisterForm.propTypes = {

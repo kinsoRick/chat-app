@@ -9,6 +9,7 @@ import LoginForm from '../../components/Forms/LoginForm';
 import './index.scss';
 import AuthContext from '../../contexts/AuthContext';
 
+// TODO: Вынести в scss
 const background = {
   background: "url('https://i.ibb.co/fD2k187/Photo.png')",
   width: '100vw',
@@ -29,6 +30,7 @@ const Login = () => {
         navigate('/');
       })
       .catch((err) => {
+        // TODO: Обработать и другие ошибки
         if (err.response.data.statusCode === 401) {
           toast.error(t('loginFailed'));
         }

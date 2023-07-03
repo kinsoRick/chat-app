@@ -16,8 +16,10 @@ const channelsSlice = createSlice({
   reducers: {
     setChannels: channelsAdapter.setAll,
     updateChannel: (state, { payload }) => {
+      // TODO: Использовать MAP
       state.entities = [...state.entities.filter((entity) => entity.id !== payload.id), payload];
     },
+    // TODO: RemoveOne использовать
     removeChannel: (state, { payload }) => {
       state.entities = state.entities.filter((entity) => entity.id !== payload);
       state.ids = state.ids.filter((id) => id !== payload);

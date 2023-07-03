@@ -11,6 +11,7 @@ const MessageInput = ({ onSubmit }) => {
     const { message } = values;
     const sanitizedMessage = filter.clean(message);
     const newVal = { message: sanitizedMessage };
+    // TODO: Обработать ошибки + async
     onSubmit(newVal);
     resetForm();
   };

@@ -23,13 +23,13 @@ const rollbarConfig = {
 const App = () => {
   const [token, setToken] = useLocalStorage('token', '');
   const [username, setUsername] = useLocalStorage('username', '');
-  const auth = token !== '';
 
+  // TODO: ВЫНЕСТИ В ОТДЕЛЬНЫЙ КОМПОНЕНТ!
   const contextValues = useMemo(
     () => ({
-      token, setToken, auth, username, setUsername,
+      token, setToken, auth: token !== '', username, setUsername,
     }),
-    [token, setToken, auth, username, setUsername],
+    [token, setToken, username, setUsername],
   );
 
   const router = createBrowserRouter([

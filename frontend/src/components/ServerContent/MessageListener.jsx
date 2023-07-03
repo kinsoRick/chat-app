@@ -54,7 +54,7 @@ const MessageListener = ({ channelId }) => {
       socket.off('removeChannel', handleRemoveChannel);
       socket.off('renameChannel', handleRenameChannel);
     };
-  }, [channelId, dispatch, t]);
+  }, [dispatch, t]);
 
   return (
     <div className="content-body">

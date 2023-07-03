@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// TODO:  в такой проверке нет смысла, поскольку у yup есть метод notOneOf
 async function isNameAvailable(name, token) {
   const response = await axios.get('/api/v1/data', {
     headers: {

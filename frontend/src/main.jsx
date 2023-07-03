@@ -17,6 +17,8 @@ i18n
     interpolation: {
       escapeValue: false,
     },
+  }).catch((err) => {
+    throw Error(`I18N: ${err.message}`);
   });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

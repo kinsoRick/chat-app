@@ -27,6 +27,7 @@ const LoginForm = ({ onSubmit }) => {
       }}
       validationSchema={loginSchema}
       onSubmit={(values, { resetForm }) => {
+        // TODO: Обработать ошибки + async
         onSubmit(values);
         resetForm();
       }}
