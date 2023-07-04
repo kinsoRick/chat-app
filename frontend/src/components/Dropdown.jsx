@@ -1,17 +1,14 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import socket from '../socket';
 import Modal from './Modal';
 import dropdownIcon from '../assets/dropdown.svg';
 import RenameForm from './Forms/RenameForm';
-import isNameAvailable from '../utils/isNameAvailable';
-import AuthContext from '../contexts/AuthContext';
 
 const Dropdown = ({ onClick, channelId, show = false }) => {
-  const { token } = useContext(AuthContext);
   const [showRenameModal, setRenameModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
   const { t } = useTranslation();
@@ -36,10 +33,7 @@ const Dropdown = ({ onClick, channelId, show = false }) => {
   };
 
   const renameServer = ({ serverRename }) => {
-    isNameAvailable(serverRename, token).then((flag) => {
-      if (flag) socket.emit('renameChannel', { id: channelId, name: serverRename });
-    });
-
+    socket.emit('renameChannel', { id: channelId, name: serverRename });
     toggleRenameModal();
   };
 

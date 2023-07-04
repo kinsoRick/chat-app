@@ -8,7 +8,7 @@ import App from './App';
 import resources from './locales';
 
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     resources,
     lng: 'ru',
@@ -17,12 +17,14 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-  }).catch((err) => {
+  })
+  .then(() => {
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+    );
+  })
+  .catch((err) => {
     throw Error(`I18N: ${err.message}`);
   });
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);

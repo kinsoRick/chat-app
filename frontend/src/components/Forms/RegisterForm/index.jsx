@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import './index.scss';
 
-const RegisterForm = ({ onSubmit, error }) => {
+const RegisterForm = ({ onSubmit }) => {
   const { t } = useTranslation();
 
   const registerSchema = Yup.object().shape({
@@ -29,8 +29,22 @@ const RegisterForm = ({ onSubmit, error }) => {
           password: '',
           retypePassword: '',
         }}
-        onSubmit={(values) => onSubmit(values)}
         validationSchema={registerSchema}
+        onSubmit={async (values, { resetForm, setFieldError }) => {
+          try {
+            await onSubmit(values);
+            resetForm();
+          } catch (err) {
+            const errorCode = err.response?.data?.statusCode;
+            switch (errorCode) {
+              case 409:
+                setFieldError('username', t('nicknameOwned'));
+                break;
+              default:
+                throw new Error(`Unexpected error: ${err.message}`);
+            }
+          }
+        }}
       >
 
         {({ errors, touched }) => (
@@ -39,7 +53,6 @@ const RegisterForm = ({ onSubmit, error }) => {
             <div className="floating-field">
               <Field id="username" name="username" placeholder="nickname" />
               <label htmlFor="username">{t('usernameRegister')}</label>
-              {error && <div className="input-error">{error}</div>}
               {errors.username && touched.username ? <div className="input-error">{errors.username}</div> : null}
             </div>
 
@@ -67,7 +80,6 @@ const RegisterForm = ({ onSubmit, error }) => {
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  error: PropTypes.string,
 };
 
 export default RegisterForm;

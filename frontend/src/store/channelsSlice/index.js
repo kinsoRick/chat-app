@@ -16,31 +16,28 @@ const channelsSlice = createSlice({
   reducers: {
     setChannels: channelsAdapter.setAll,
     updateChannel: (state, { payload }) => {
-      // TODO: Использовать MAP
-      state.entities = [...state.entities.filter((entity) => entity.id !== payload.id), payload];
+      state.entities = state.entities.map((entity) => {
+        if (entity.id !== payload.id) return entity;
+        return payload;
+      });
     },
-    // TODO: RemoveOne использовать
-    removeChannel: (state, { payload }) => {
-      state.entities = state.entities.filter((entity) => entity.id !== payload);
-      state.ids = state.ids.filter((id) => id !== payload);
-      // eslint-disable-next-line prefer-destructuring
-      state.currentChannelId = state.ids[0];
-    },
+    removeChannel: channelsAdapter.removeOne,
     addChannel: channelsAdapter.addOne,
     setCurrentChannel: (state, { payload }) => {
       state.currentChannelId = payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getData.fulfilled, (state, { payload }) => {
-      const { channels, currentChannelId } = payload;
-      const ids = channels.map((channel) => channel.id);
+    builder
+      .addCase(getData.fulfilled, (state, { payload }) => {
+        const { channels, currentChannelId } = payload;
+        const ids = channels.map((channel) => channel.id);
 
-      state.ids = ids;
-      state.entities = channels;
-      state.currentChannelId = currentChannelId;
-      state.status = 'fulfilled';
-    });
+        state.ids = ids;
+        state.entities = channels;
+        state.currentChannelId = currentChannelId;
+        state.status = 'fulfilled';
+      });
   },
 });
 

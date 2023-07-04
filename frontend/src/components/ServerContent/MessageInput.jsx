@@ -11,9 +11,16 @@ const MessageInput = ({ onSubmit }) => {
     const { message } = values;
     const sanitizedMessage = filter.clean(message);
     const newVal = { message: sanitizedMessage };
-    // TODO: Обработать ошибки + async
-    onSubmit(newVal);
-    resetForm();
+    try {
+      onSubmit(newVal);
+      resetForm();
+    } catch (err) {
+      const errorCode = err.response?.data?.statusCode;
+      switch (errorCode) {
+        default:
+          throw new Error(`Unexpected error: ${err.message}`);
+      }
+    }
   };
 
   return (

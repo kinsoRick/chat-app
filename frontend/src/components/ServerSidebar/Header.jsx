@@ -1,15 +1,11 @@
-import { useState, memo, useContext } from 'react';
+import { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 
 import AddForm from '../Forms/AddForm';
 import Modal from '../Modal';
 import socket from '../../socket';
-import isNameAvailable from '../../utils/isNameAvailable';
-
-import AuthContext from '../../contexts/AuthContext';
 
 const ServerHeader = ({ children }) => {
-  const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
   const controlModal = (event) => {
@@ -18,9 +14,7 @@ const ServerHeader = ({ children }) => {
   };
 
   const newServer = ({ serverName }) => {
-    isNameAvailable(serverName, token).then((flag) => {
-      if (flag) socket.emit('newChannel', { name: serverName });
-    });
+    socket.emit('newChannel', { name: serverName });
     setShowModal(!showModal);
   };
 

@@ -38,6 +38,7 @@ const ru = {
     usernameRequired: 'Имя пользователя обязательное поле!',
     passwordRequired: 'Пароль обязательное поле!',
     passwordLengthMin: 'Не менее 6 символов',
+    unique: 'Должно быть уникальным',
   },
 };
 

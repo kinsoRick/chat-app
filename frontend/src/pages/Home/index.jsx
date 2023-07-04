@@ -31,7 +31,7 @@ const Home = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const currentChannel = useMemo(
-    () => channels.find((channel) => channel.id === currentChannelId) || null,
+    () => channels.find((channel) => channel?.id === currentChannelId) ?? null,
     [channels, currentChannelId],
   );
 

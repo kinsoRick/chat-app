@@ -1,48 +1,27 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import SecurityIllustration from '../../assets/security.svg';
 import RegisterForm from '../../components/Forms/RegisterForm';
 import './index.scss';
 import AuthContext from '../../contexts/AuthContext';
 
-const background = {
-  background: "url('https://i.ibb.co/fD2k187/Photo.png')",
-  width: '100vw',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
-};
-
 const Register = () => {
   const { setToken, setUsername } = useContext(AuthContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const [error, setError] = useState(null);
-  const register = (values) => {
-    const { username, password } = values;
-    setError(null);
-
-    axios
-      .post('/api/v1/signup', { username, password }).then((res) => {
-        setToken(res.data.token);
-        setUsername(res.data.username);
-
-        navigate('/');
-      })
-      .catch((err) => {
-        if (err.response?.data?.statusCode === 409) {
-          setError(t('nicknameOwned'));
-          toast.error(t('nicknameOwned'));
-        }
-      });
-  };
+  const register = async ({ username, password }) => axios
+    .post('/api/v1/signup', { username, password })
+    .then((res) => {
+      setToken(res.data.token);
+      setUsername(res.data.username);
+      navigate('/');
+    });
 
   return (
-    <div style={background}>
+    <div className="background">
       <nav className="nav-pane">
         <div className="nav-content">
           <a href="/">Hexlet Chat</a>
@@ -65,9 +44,9 @@ const Register = () => {
 
           <div className="right-box">
             <h1>{t('toRegister')}</h1>
-            <RegisterForm onSubmit={register} error={error} />
+            <RegisterForm onSubmit={async (values) => register(values)} />
             <span>
-              { t('haveAccount')}
+              {t('haveAccount')}
               <a href="/login">
                 {' '}
                 {t('goLogin')}

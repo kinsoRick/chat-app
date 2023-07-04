@@ -4,6 +4,7 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import './index.scss';
 
@@ -26,10 +27,21 @@ const LoginForm = ({ onSubmit }) => {
         password: '',
       }}
       validationSchema={loginSchema}
-      onSubmit={(values, { resetForm }) => {
-        // TODO: Обработать ошибки + async
-        onSubmit(values);
-        resetForm();
+      onSubmit={async (values, { setFieldError, resetForm }) => {
+        try {
+          await onSubmit(values);
+          resetForm();
+        } catch (err) {
+          const errorCode = err.response?.data?.statusCode;
+          switch (errorCode) {
+            case 401:
+              toast.error(t('loginFailed'));
+              setFieldError('username', t('loginFailed'));
+              break;
+            default:
+              throw new Error(`Unexpected error: ${err.message}`);
+          }
+        }
       }}
     >
       <Form className="login-form">
