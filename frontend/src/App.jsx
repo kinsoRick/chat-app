@@ -14,10 +14,10 @@ import store from './store';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import useAuthorization from './hooks/useAuthorization';
 
-const rollbarConfig = {
-  accessToken: 'b9fa851c18ea413d9bb1df620f6a4dd6',
-  environment: 'testenv',
-};
+// const rollbarConfig = {
+//   accessToken: 'b9fa851c18ea413d9bb1df620f6a4dd6',
+//   environment: 'testenv',
+// };
 
 const App = () => {
   const authValues = useAuthorization();
