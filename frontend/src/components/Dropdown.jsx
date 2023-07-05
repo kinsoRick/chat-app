@@ -11,7 +11,7 @@ import RenameForm from './Forms/RenameForm';
 
 import { actions as modalsActions } from '../store/modalsSlice';
 
-const Dropdown = ({ onClick, channelId, show = false }) => {
+const Dropdown = ({ onClick, channelId, show }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
