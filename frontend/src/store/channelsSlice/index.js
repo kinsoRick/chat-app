@@ -24,6 +24,7 @@ const channelsSlice = createSlice({
       state.entities = state.entities.filter((entity) => entity.id !== payload);
     },
     addChannel: (state, { payload }) => {
+      if (state.ids.includes(payload.id)) return;
       state.entities.push(payload);
       state.ids.push(payload.id);
     },

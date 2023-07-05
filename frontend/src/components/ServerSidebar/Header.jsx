@@ -9,14 +9,17 @@ import Modal from '../Modal';
 import socket from '../../socket';
 
 import { actions as modalsActions } from '../../store/modalsSlice';
+import { actions as channelsActions } from '../../store/channelsSlice';
 
 const ServerHeader = ({ children }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const newServer = ({ serverName }) => {
-    socket.emit('newChannel', { name: serverName }, ({ status }) => {
+    socket.emit('newChannel', { name: serverName }, ({ status, data }) => {
       if (status === 'ok') toast.success(t('channelCreated'));
+      dispatch(channelsActions.addChannel(data));
+      dispatch(channelsActions.setCurrentChannel(data.id));
     });
     dispatch(modalsActions.setCurrentModal('addModal'));
   };
