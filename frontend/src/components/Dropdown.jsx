@@ -92,7 +92,7 @@ const Dropdown = ({ onClick, channelId, show }) => {
 Dropdown.propTypes = {
   channelId: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
-  show: PropTypes.bool,
+  show: PropTypes.bool.isRequired,
 };
 
 export default Dropdown;
