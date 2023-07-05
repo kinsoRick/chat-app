@@ -32,6 +32,35 @@ yarn run start
 yarn run test
 ```
 
+## Routes
+
+| Element     | Route     |
+| :--------   | :-        |
+| `Home`      | `/`       |
+| `Login`     | `/login`  | 
+| `Signup`    | `/signup` |
+| `Not Found` | Any route |
+
+## Screenshots
+
+![App Screenshot](https://i.imgur.com/0Cmer95_d.webp?maxwidth=760&fidelity=grand)
+
+![App Screenshot](https://i.imgur.com/Hlg3fzY.png)
+
+![App Screenshot](https://i.imgur.com/SI5gjIG.png)
+
+![App Screenshot](https://i.imgur.com/RDpdpyw.png)
+
+## 🛠 Libs
+- React
+- I18n
+- Redux with toolkit
+- Eslint
+- Playwright
+- sass
+- Others... (listed in package.json)
+
+
 ## Author
 
 👤 **Masnaveev Kamil Albertovich**

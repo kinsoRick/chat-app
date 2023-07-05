@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import useSocketEvents from '../../hooks/useSocketEvents';
@@ -13,7 +11,6 @@ import Message from './Message';
 
 const MessageListener = ({ channelId }) => {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
 
   const eventsMemo = useMemo(() => ([
     {
@@ -29,26 +26,25 @@ const MessageListener = ({ channelId }) => {
       handler: (payload) => {
         if (payload !== null) {
           dispatch(channelsActions.addChannel(payload));
-          toast.success(t('channelCreated'));
         }
       },
     },
     {
       name: 'removeChannel',
       handler: ({ id }) => {
+        if (id === channelId) {
+          dispatch(channelsActions.setCurrentChannel(1));
+        }
         dispatch(channelsActions.removeChannel(id));
-        if (id === channelId) dispatch(channelsActions.setCurrentChannel(-1));
-        toast.success(t('channelRemoved'));
       },
     },
     {
       name: 'renameChannel',
       handler: (payload) => {
         dispatch(channelsActions.updateChannel(payload));
-        toast.success(t('channelRenamed'));
       },
     },
-  ]), [dispatch, t]);
+  ]), [channelId, dispatch]);
 
   useSocketEvents(eventsMemo);
 

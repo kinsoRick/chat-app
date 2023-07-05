@@ -3,12 +3,15 @@ import {
 } from 'formik';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as Yup from 'yup';
 
-const RenameForm = ({ renameServer, controlModal }) => {
+import { actions as modalsActions } from '../../store/modalsSlice';
+
+const RenameForm = ({ renameServer }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))
     .map((channel) => channel.name);
 
@@ -47,8 +50,7 @@ const RenameForm = ({ renameServer, controlModal }) => {
         <button
           type="button"
           className="btn-cancel"
-          onClick={(e) => controlModal(e)}
-          data-modal
+          onClick={() => dispatch(modalsActions.setCurrentModal('renameModal'))}
         >
           {t('cancel')}
         </button>
@@ -59,7 +61,6 @@ const RenameForm = ({ renameServer, controlModal }) => {
 
 RenameForm.propTypes = {
   renameServer: PropTypes.func.isRequired,
-  controlModal: PropTypes.func.isRequired,
 };
 
 export default RenameForm;

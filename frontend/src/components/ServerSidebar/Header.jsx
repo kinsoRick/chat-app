@@ -1,29 +1,35 @@
-import { useState, memo } from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AddForm from '../Forms/AddForm';
 import Modal from '../Modal';
 import socket from '../../socket';
 
-const ServerHeader = ({ children }) => {
-  const [showModal, setShowModal] = useState(false);
+import { actions as modalsActions } from '../../store/modalsSlice';
 
-  const controlModal = (event) => {
-    const { modal } = event.target.dataset;
-    if (modal !== undefined) setShowModal(!showModal);
-  };
+const ServerHeader = ({ children }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const newServer = ({ serverName }) => {
-    socket.emit('newChannel', { name: serverName });
-    setShowModal(!showModal);
+    socket.emit('newChannel', { name: serverName }, ({ status }) => {
+      if (status === 'ok') toast.success(t('channelCreated'));
+    });
+    dispatch(modalsActions.setCurrentModal('addModal'));
   };
+
+  const currentModal = useSelector((state) => state.modals.currentModal);
+  const isAddModal = currentModal === 'addModal';
 
   return (
     <div className="server-header">
       <h2>{children}</h2>
       <button
         type="button"
-        onClick={(e) => controlModal(e)}
+        onClick={() => dispatch(modalsActions.setCurrentModal('addModal'))}
         className="ml-auto hide-btn"
         data-modal
       >
@@ -32,9 +38,9 @@ const ServerHeader = ({ children }) => {
       </button>
 
       {/* Modal created in Portal */}
-      {showModal && (
-        <Modal controlModal={controlModal} showModal={showModal} headerName="Добавить канал">
-          <AddForm newServer={newServer} controlModal={controlModal} />
+      {isAddModal && (
+        <Modal headerName="Добавить канал" name="addModal">
+          <AddForm newServer={newServer} />
         </Modal>
       )}
     </div>

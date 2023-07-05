@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'react/require-default-props': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
     'jsx-a11y/label-has-associated-control': 'off',

@@ -1,8 +1,6 @@
 import {
-  createBrowserRouter,
-  RouterProvider,
+  BrowserRouter as Router, Routes, Route,
 } from 'react-router-dom';
-import { useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Provider as ErrorProvider, ErrorBoundary } from '@rollbar/react';
@@ -13,7 +11,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 import store from './store';
-import useLocalStorage from './hooks/useLocalStorage';
+import ProtectedRoutes from './components/ProtectedRoutes';
+import useAuthorization from './hooks/useAuthorization';
 
 const rollbarConfig = {
   accessToken: 'b9fa851c18ea413d9bb1df620f6a4dd6',
@@ -21,42 +20,23 @@ const rollbarConfig = {
 };
 
 const App = () => {
-  const [token, setToken] = useLocalStorage('token', '');
-  const [username, setUsername] = useLocalStorage('username', '');
-
-  // TODO: ВЫНЕСТИ В ОТДЕЛЬНЫЙ КОМПОНЕНТ!
-  const contextValues = useMemo(
-    () => ({
-      token, setToken, auth: token !== '', username, setUsername,
-    }),
-    [token, setToken, username, setUsername],
-  );
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Home />,
-    },
-    {
-      path: '/login',
-      element: <Login />,
-    },
-    {
-      path: '/signup',
-      element: <Register />,
-    },
-    {
-      path: '*',
-      element: <NotFound />,
-    },
-  ]);
+  const authValues = useAuthorization();
 
   return (
     <Provider store={store}>
-      <AuthContext.Provider value={contextValues}>
+      <AuthContext.Provider value={authValues}>
         <ErrorProvider config={rollbarConfig}>
           <ErrorBoundary>
-            <RouterProvider router={router} />
+            <Router>
+              <Routes>
+                <Route element={<ProtectedRoutes />}>
+                  <Route path="/" element={<Home />} />
+                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Register />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Router>
             <ToastContainer
               position="bottom-right"
               autoClose={5000}

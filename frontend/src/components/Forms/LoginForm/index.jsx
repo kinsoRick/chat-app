@@ -4,7 +4,6 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import './index.scss';
 
@@ -35,7 +34,6 @@ const LoginForm = ({ onSubmit }) => {
           const errorCode = err.response?.data?.statusCode;
           switch (errorCode) {
             case 401:
-              toast.error(t('loginFailed'));
               setFieldError('username', t('loginFailed'));
               break;
             default:

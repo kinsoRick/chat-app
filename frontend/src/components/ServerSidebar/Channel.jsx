@@ -14,17 +14,11 @@ const Channel = ({
   );
 };
 
-Channel.defaultProps = {
-  active: false,
-  onClick: () => { },
-  children: null,
-};
-
 Channel.propTypes = {
   name: PropTypes.string.isRequired,
-  active: PropTypes.bool,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
+  active: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Channel;

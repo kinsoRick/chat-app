@@ -3,12 +3,25 @@
 
 import cn from 'classnames';
 import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-// TODO: ВЫНЕСТИ СОСТОЯНИЕ МОДАЛОК В ОТДЕЛЬНЫЙ СЛАЙС
+import { actions as modalsActions } from '../store/modalsSlice';
+
 const Modal = ({
-  children, showModal, controlModal, headerName,
+  children, headerName, name,
 }) => {
-  const modalStyles = cn('modal', { show: showModal });
+  const dispatch = useDispatch();
+  const currentModal = useSelector((state) => state.modals.currentModal);
+
+  const modalStyles = cn('modal', {
+    show: currentModal === name,
+  });
+
+  const controlModal = (event) => {
+    if ('modal' in event.nativeEvent.target.dataset) {
+      dispatch(modalsActions.setCurrentModal(name));
+    }
+  };
 
   return createPortal((
     <div className={modalStyles} data-modal onClick={(e) => controlModal(e)}>

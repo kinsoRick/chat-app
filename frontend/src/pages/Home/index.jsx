@@ -16,15 +16,13 @@ const Home = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const [activeDropdown, setActiveDropdown] = useState('');
 
   useEffect(() => {
-    // TODO: Создать Private Route
-    if (!auth) navigate('/login');
     dispatch(getData(token));
-  }, [auth, dispatch, navigate, token]);
+  }, [dispatch, navigate, token]);
 
   const channels = Object.values(useSelector((state) => state.channels.entities));
   const channelsLoaded = useSelector((state) => state.channels.status) === 'fulfilled';

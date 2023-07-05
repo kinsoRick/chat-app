@@ -1,45 +1,41 @@
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
 
 import socket from '../socket';
 import Modal from './Modal';
 import dropdownIcon from '../assets/dropdown.svg';
 import RenameForm from './Forms/RenameForm';
 
+import { actions as modalsActions } from '../store/modalsSlice';
+
 const Dropdown = ({ onClick, channelId, show = false }) => {
-  const [showRenameModal, setRenameModal] = useState(false);
-  const [showDeleteModal, setDeleteModal] = useState(false);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const dropdownClasses = cn('dropdown', { visible: show });
 
-  const toggleModal = (modalState, setModalState) => {
-    setModalState(!modalState);
-  };
-
-  const toggleRenameModal = () => {
-    toggleModal(showRenameModal, setRenameModal);
-  };
-
-  const toggleDeleteModal = () => {
-    toggleModal(showDeleteModal, setDeleteModal);
-  };
-
-  const controlModal = (event, modalState, setModalState) => {
-    const { modal } = event.target.dataset;
-    if (modal !== undefined) toggleModal(modalState, setModalState);
-  };
-
   const renameServer = ({ serverRename }) => {
-    socket.emit('renameChannel', { id: channelId, name: serverRename });
-    toggleRenameModal();
+    socket.emit('renameChannel', { id: channelId, name: serverRename }, ({ status }) => {
+      if (status === 'ok') toast.success(t('channelRenamed'));
+    });
+    dispatch(modalsActions.setCurrentModal('renameModal'));
   };
 
   const deleteServer = () => {
-    socket.emit('removeChannel', { id: channelId });
+    socket.emit('removeChannel', { id: channelId }, ({ status }) => {
+      if (status === 'ok') toast.success(t('channelRemoved'));
+    });
+    dispatch(modalsActions.setCurrentModal('removeModal'));
   };
+
+  const currentModal = useSelector((state) => state.modals.currentModal);
+  const toggleDeleteModal = () => dispatch(modalsActions.setCurrentModal('removeModal'));
+  const toggleRenameModal = () => dispatch(modalsActions.setCurrentModal('renameModal'));
+  const isRenameModal = currentModal === 'renameModal';
+  const isRemoveModal = currentModal === 'removeModal';
 
   return (
     <>
@@ -58,43 +54,39 @@ const Dropdown = ({ onClick, channelId, show = false }) => {
       </div>
 
       {/* Modal created in portal */}
-      {showRenameModal && (
-        <Modal controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)} showModal={showRenameModal} headerName="Переименовать канал">
+      {isRenameModal && (
+        <Modal headerName="Переименовать канал" name="renameModal">
           <RenameForm
             renameServer={renameServer}
-            controlModal={(e) => controlModal(e, showRenameModal, setRenameModal)}
           />
         </Modal>
       )}
 
-      <Modal controlModal={(e) => controlModal(e, showDeleteModal, setDeleteModal)} showModal={showDeleteModal} headerName="Удалить канал">
-        <h3 style={{ textAlign: 'center' }}>{t('sure')}</h3>
+      {isRemoveModal && (
+        <Modal headerName="Удалить канал" name="removeModal">
+          <h3 style={{ textAlign: 'center' }}>{t('sure')}</h3>
 
-        <button
-          type="button"
-          className="btn-danger"
-          onClick={deleteServer}
-          style={{ margin: '0 10px 10px' }}
-        >
-          {t('delete')}
-        </button>
+          <button
+            type="button"
+            className="btn-danger"
+            onClick={deleteServer}
+            style={{ margin: '0 10px 10px' }}
+          >
+            {t('delete')}
+          </button>
 
-        <button
-          type="button"
-          className="btn-success"
-          onClick={(e) => controlModal(e, showDeleteModal, setDeleteModal)}
-          style={{ margin: '0 10px 10px' }}
-          data-modal
-        >
-          {t('cancel')}
-        </button>
-      </Modal>
+          <button
+            type="button"
+            className="btn-success"
+            onClick={() => dispatch(modalsActions.setCurrentModal('removeModal'))}
+            style={{ margin: '0 10px 10px' }}
+          >
+            {t('cancel')}
+          </button>
+        </Modal>
+      )}
     </>
   );
-};
-
-Dropdown.defaultProps = {
-  show: false,
 };
 
 Dropdown.propTypes = {
