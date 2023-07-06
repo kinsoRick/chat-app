@@ -1,24 +1,11 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import SecurityIllustration from '../../assets/security.svg';
 import RegisterForm from '../../components/Forms/RegisterForm';
 import './index.scss';
-import AuthContext from '../../contexts/AuthContext';
 
 const Register = () => {
-  const { setToken, setUsername } = useContext(AuthContext);
-  const navigate = useNavigate();
   const { t } = useTranslation();
-  const register = async ({ username, password }) => axios
-    .post('/api/v1/signup', { username, password })
-    .then((res) => {
-      setToken(res.data.token);
-      setUsername(res.data.username);
-      navigate('/');
-    });
 
   return (
     <div className="background">
@@ -44,7 +31,7 @@ const Register = () => {
 
           <div className="right-box">
             <h1>{t('toRegister')}</h1>
-            <RegisterForm onSubmit={async (values) => register(values)} />
+            <RegisterForm />
             <span>
               {t('haveAccount')}
               <a href="/login">

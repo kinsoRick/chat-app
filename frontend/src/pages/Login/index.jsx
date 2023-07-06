@@ -1,25 +1,11 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import SecurityIllustration from '../../assets/security.svg';
 import LoginForm from '../../components/Forms/LoginForm';
 import './index.scss';
-import AuthContext from '../../contexts/AuthContext';
 
 const Login = () => {
-  const { setToken, setUsername } = useContext(AuthContext);
-  const navigate = useNavigate();
   const { t } = useTranslation();
-
-  const authorize = async (values) => axios
-    .post('/api/v1/login', values)
-    .then((res) => {
-      setToken(res.data.token);
-      setUsername(res.data.username);
-      navigate('/');
-    });
 
   return (
     <div className="background">
@@ -46,7 +32,7 @@ const Login = () => {
           <div className="right-box">
             <h1>{t('login')}</h1>
 
-            <LoginForm onSubmit={(values) => authorize(values)} />
+            <LoginForm />
 
             <span>
               {t('notAccount')}

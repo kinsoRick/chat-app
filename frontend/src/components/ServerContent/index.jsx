@@ -7,10 +7,11 @@ import MessageInput from './MessageInput';
 import MessageListener from './MessageListener';
 
 import AuthContext from '../../contexts/AuthContext';
-import socket from '../../socket';
+import SocketContext from '../../contexts/SocketContext';
 
 const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
+  const socket = useContext(SocketContext);
 
   const { setToken, setUsername, username } = useContext(AuthContext);
   const logout = () => {

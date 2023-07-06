@@ -1,17 +1,22 @@
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 import * as Yup from 'yup';
 
 import { actions as modalsActions } from '../../store/modalsSlice';
+import SocketContext from '../../contexts/SocketContext';
 
-const RenameForm = ({ renameServer }) => {
+const RenameForm = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
+
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))
     .map((channel) => channel.name);
 
@@ -19,23 +24,22 @@ const RenameForm = ({ renameServer }) => {
     serverRename: Yup.string().notOneOf(channelsNames, t('unique')),
   });
 
+  const renameServer = async ({ serverRename }) => {
+    socket.emit('renameChannel', { id: channelId, name: serverRename }, ({ status }) => {
+      if (status === 'ok') toast.success(t('channelRenamed'));
+    });
+    dispatch(modalsActions.setCurrentModal('renameModal'));
+  };
+
   return (
     <Formik
       initialValues={{
         serverRename: '',
       }}
       validationSchema={renameSchema}
-      onSubmit={(values, { resetForm }) => {
-        try {
-          renameServer(values);
-          resetForm();
-        } catch (err) {
-          const errorCode = err.response?.data?.statusCode;
-          switch (errorCode) {
-            default:
-              throw new Error(`Unexpected error: ${err.message}`);
-          }
-        }
+      onSubmit={async (values, { resetForm }) => {
+        await renameServer(values);
+        resetForm();
       }}
     >
       <Form className="server-form">
@@ -60,7 +64,7 @@ const RenameForm = ({ renameServer }) => {
 };
 
 RenameForm.propTypes = {
-  renameServer: PropTypes.func.isRequired,
+  channelId: PropTypes.number.isRequired,
 };
 
 export default RenameForm;

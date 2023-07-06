@@ -1,15 +1,20 @@
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import { actions as modalsActions } from '../../store/modalsSlice';
+import { actions as channelsActions } from '../../store/channelsSlice';
 
-const AddForm = ({ newServer }) => {
+import SocketContext from '../../contexts/SocketContext';
+
+const AddForm = () => {
   const { t } = useTranslation();
+  const socket = useContext(SocketContext);
   const dispatch = useDispatch();
 
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))
@@ -18,23 +23,27 @@ const AddForm = ({ newServer }) => {
   const renameSchema = Yup.object().shape({
     serverName: Yup.string().notOneOf(channelsNames, t('unique')),
   });
+
+  const newServer = async ({ serverName }) => {
+    socket.emit('newChannel', { name: serverName }, ({ status, data }) => {
+      if (status === 'ok') {
+        toast.success(t('channelCreated'));
+        dispatch(channelsActions.addChannel(data));
+        dispatch(channelsActions.setCurrentChannel(data.id));
+      }
+    });
+    dispatch(modalsActions.setCurrentModal('addModal'));
+  };
+
   return (
     <Formik
       initialValues={{
         serverName: '',
       }}
       validationSchema={renameSchema}
-      onSubmit={(values, { resetForm }) => {
-        try {
-          newServer(values);
-          resetForm();
-        } catch (err) {
-          const errorCode = err.response?.data?.statusCode;
-          switch (errorCode) {
-            default:
-              throw new Error(`Unexpected error: ${err.message}`);
-          }
-        }
+      onSubmit={async (values, { resetForm }) => {
+        await newServer(values);
+        resetForm();
       }}
     >
       <Form className="server-form">
@@ -57,10 +66,6 @@ const AddForm = ({ newServer }) => {
       </Form>
     </Formik>
   );
-};
-
-AddForm.propTypes = {
-  newServer: PropTypes.func.isRequired,
 };
 
 export default AddForm;

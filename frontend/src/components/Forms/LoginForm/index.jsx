@@ -1,13 +1,18 @@
-import PropTypes from 'prop-types';
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
+import { useContext } from 'react';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import './index.scss';
+import AuthContext from '../../../contexts/AuthContext';
 
-const LoginForm = ({ onSubmit }) => {
+const LoginForm = () => {
+  const { setToken, setUsername } = useContext(AuthContext);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const loginSchema = Yup.object().shape({
@@ -28,7 +33,10 @@ const LoginForm = ({ onSubmit }) => {
       validationSchema={loginSchema}
       onSubmit={async (values, { setFieldError, resetForm }) => {
         try {
-          await onSubmit(values);
+          const res = await axios.post('/api/v1/login', values);
+          setToken(res.data.token);
+          setUsername(res.data.username);
+          navigate('/');
           resetForm();
         } catch (err) {
           const errorCode = err.response?.data?.statusCode;
@@ -61,10 +69,6 @@ const LoginForm = ({ onSubmit }) => {
       </Form>
     </Formik>
   );
-};
-
-LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

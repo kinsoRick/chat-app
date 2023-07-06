@@ -1,12 +1,17 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import './index.scss';
+import AuthContext from '../../../contexts/AuthContext';
 
-const RegisterForm = ({ onSubmit }) => {
+const RegisterForm = () => {
   const { t } = useTranslation();
+  const { setToken, setUsername } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const registerSchema = Yup.object().shape({
     username: Yup.string()
@@ -30,9 +35,12 @@ const RegisterForm = ({ onSubmit }) => {
           retypePassword: '',
         }}
         validationSchema={registerSchema}
-        onSubmit={async (values, { resetForm, setFieldError }) => {
+        onSubmit={async ({ username, password }, { resetForm, setFieldError }) => {
           try {
-            await onSubmit(values);
+            const res = await axios.post('/api/v1/signup', { username, password });
+            setToken(res.data.token);
+            setUsername(res.data.username);
+            navigate('/');
             resetForm();
           } catch (err) {
             const errorCode = err.response?.data?.statusCode;
@@ -76,10 +84,6 @@ const RegisterForm = ({ onSubmit }) => {
       </Formik>
     </div>
   );
-};
-
-RegisterForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import getData from '../actions/getData';
 import { actions as channelsActions } from '../channelsSlice';
