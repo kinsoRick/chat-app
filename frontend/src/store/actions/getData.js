@@ -8,9 +8,9 @@ const getData = createAsyncThunk('getData', async (token, { rejectWithValue }) =
         Authorization: `Bearer ${token}`,
       },
     });
-  
+
     const { data } = response;
-  
+
     return data;
   } catch (err) {
     const errorCode = err.response?.data?.statusCode;
