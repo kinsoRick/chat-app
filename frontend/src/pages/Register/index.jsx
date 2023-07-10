@@ -21,7 +21,7 @@ const Register = () => {
             <img
               alt="Illustration Register"
               src={SecurityIllustration}
-              className='auth-illustration'
+              className="auth-illustration"
             />
           </div>
 

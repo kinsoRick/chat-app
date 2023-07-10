@@ -21,7 +21,7 @@ const Login = () => {
             <img
               alt="Login Illustration"
               src={SecurityIllustration}
-              className='auth-illustration'
+              className="auth-illustration"
             />
           </div>
 

@@ -1,7 +1,7 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import getData from '../actions/getData';
-import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   entities: [],
