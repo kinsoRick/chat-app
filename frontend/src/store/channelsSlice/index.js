@@ -1,5 +1,7 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import getData from '../actions/getData';
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   entities: [],
@@ -41,6 +43,12 @@ const channelsSlice = createSlice({
         state.entities = channels;
         state.currentChannelId = currentChannelId;
         state.status = 'fulfilled';
+      })
+      .addCase(getData.pending, (state) => {
+        state.status = 'idle';
+      })
+      .addCase(getData.rejected, (state, { payload }) => {
+        if (payload === 401) location.pathname = '/login';
       });
   },
 });

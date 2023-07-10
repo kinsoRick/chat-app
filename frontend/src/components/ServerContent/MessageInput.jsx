@@ -7,11 +7,11 @@ import sendSvg from '../../assets/send.svg';
 const MessageInput = ({ onSubmit }) => {
   const { t } = useTranslation();
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     const { message } = values;
     const sanitizedMessage = filter.clean(message);
     const newVal = { message: sanitizedMessage };
-    onSubmit(newVal);
+    await onSubmit(newVal);
     resetForm();
   };
 

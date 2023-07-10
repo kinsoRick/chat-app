@@ -15,6 +15,8 @@ const MessageListener = ({ channelId }) => {
   const socket = useContext(SocketContext);
 
   useEffect(() => {
+    const baseChannelId = 1;
+
     socket.on('newMessage', (payload) => {
       if (payload !== null) {
         dispatch(messagesActions.addMessage(payload));
@@ -29,7 +31,7 @@ const MessageListener = ({ channelId }) => {
 
     socket.on('removeChannel', ({ id }) => {
       if (id === channelId) {
-        dispatch(channelsActions.setCurrentChannel(1));
+        dispatch(channelsActions.setCurrentChannel(baseChannelId));
       }
       dispatch(channelsActions.removeChannel(id));
     });

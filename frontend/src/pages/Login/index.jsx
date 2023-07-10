@@ -19,13 +19,9 @@ const Login = () => {
         <div className="pane grid-form">
           <div className="left-box">
             <img
-              alt="Registration Illustration"
+              alt="Login Illustration"
               src={SecurityIllustration}
-              style={{
-                height: 'auto',
-                width: '90%',
-                opacity: 0.7,
-              }}
+              className='auth-illustration'
             />
           </div>
 
