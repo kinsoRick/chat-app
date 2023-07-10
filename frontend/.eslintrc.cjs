@@ -21,7 +21,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
-    'no-param-reassign': ['error', { props: false }],
     'react/function-component-definition': [
       2,
       {

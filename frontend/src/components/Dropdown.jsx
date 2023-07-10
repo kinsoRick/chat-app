@@ -3,19 +3,17 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { useContext } from 'react';
 
 import Modal from './Modal';
 import dropdownIcon from '../assets/dropdown.svg';
 import RenameForm from './Forms/RenameForm';
 
 import { actions as modalsActions } from '../store/modalsSlice';
-import SocketContext from '../contexts/SocketContext';
+import socket from '../socket';
 
 const Dropdown = ({ onClick, channelId, show }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
 
   const dropdownClasses = cn('dropdown', { visible: show });
 

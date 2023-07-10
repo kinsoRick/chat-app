@@ -1,22 +1,23 @@
 import { useTranslation } from 'react-i18next';
-import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import MessageInput from './MessageInput';
 import MessageListener from './MessageListener';
 
-import AuthContext from '../../contexts/AuthContext';
-import SocketContext from '../../contexts/SocketContext';
+import socket from '../../socket';
+import useAuthorization from '../../hooks/useAuthorization';
 
 const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
-  const socket = useContext(SocketContext);
+  const navigate = useNavigate();
 
-  const { setToken, setUsername, username } = useContext(AuthContext);
+  const { setToken, setUsername, username } = useAuthorization();
   const logout = () => {
     setToken('');
     setUsername('');
+    navigate('/login');
   };
 
   const sendMessage = ({ message }) => {

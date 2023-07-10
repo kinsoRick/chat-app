@@ -5,8 +5,6 @@ import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { Provider as ErrorProvider, ErrorBoundary } from '@rollbar/react';
 
-import SocketContext, { socket } from './contexts/SocketContext';
-import AuthContext from './contexts/AuthContext';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
@@ -14,47 +12,38 @@ import Register from './pages/Register';
 
 import store from './store';
 import ProtectedRoutes from './components/ProtectedRoutes';
-import useAuthorization from './hooks/useAuthorization';
 import rollbarConfig from './configs/rollbar.config';
 
-const App = () => {
-  const authValues = useAuthorization();
+const App = () => (
+  <Provider store={store}>
+    <ErrorProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <Router>
+          <Routes>
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/" element={<Home />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      </ErrorBoundary>
+    </ErrorProvider>
+  </Provider>
 
-  return (
-    <Provider store={store}>
-      <AuthContext.Provider value={authValues}>
-        <SocketContext.Provider value={socket}>
-          <ErrorProvider config={rollbarConfig}>
-            <ErrorBoundary>
-              <Router>
-                <Routes>
-                  <Route element={<ProtectedRoutes />}>
-                    <Route path="/" element={<Home />} />
-                  </Route>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Register />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Router>
-              <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-              />
-            </ErrorBoundary>
-          </ErrorProvider>
-        </SocketContext.Provider>
-      </AuthContext.Provider>
-    </Provider>
-
-  );
-};
+);
 
 export default App;

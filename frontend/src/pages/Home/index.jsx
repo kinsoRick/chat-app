@@ -1,22 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import {
-  useContext, useEffect, useMemo, useState,
+  useEffect, useMemo, useState,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import ServerSidebar, { Channels, ServerHeader } from '../../components/ServerSidebar';
 import ServerContent from '../../components/ServerContent';
-import AuthContext from '../../contexts/AuthContext';
-
 import getData from '../../store/actions/getData';
 import './index.scss';
+import useAuthorization from '../../hooks/useAuthorization';
 
 const Home = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useContext(AuthContext);
+  const { token } = useAuthorization();
 
   const [activeDropdown, setActiveDropdown] = useState('');
 

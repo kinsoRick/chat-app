@@ -1,5 +1,4 @@
-/* eslint-disable react/destructuring-assignment */
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,11 +7,10 @@ import { actions as channelsActions } from '../../store/channelsSlice';
 import { actions as messagesActions } from '../../store/messagesSlice';
 
 import Message from './Message';
-import SocketContext from '../../contexts/SocketContext';
+import socket from '../../socket';
 
 const MessageListener = ({ channelId }) => {
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
 
   useEffect(() => {
     const baseChannelId = 1;
@@ -46,7 +44,7 @@ const MessageListener = ({ channelId }) => {
       socket.off('removeChannel');
       socket.off('renameChannel');
     };
-  }, [socket, dispatch, channelId]);
+  }, [dispatch, channelId]);
 
   const messages = useSelector((state) => state.messages.entities);
   const filteredMessages = Object.values(messages)

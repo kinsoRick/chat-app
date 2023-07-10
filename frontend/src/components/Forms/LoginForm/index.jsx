@@ -1,17 +1,17 @@
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
-import { useContext } from 'react';
+
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 import './index.scss';
-import AuthContext from '../../../contexts/AuthContext';
+import useAuthorization from '../../../hooks/useAuthorization';
 
 const LoginForm = () => {
-  const { setToken, setUsername } = useContext(AuthContext);
+  const { setToken, setUsername } = useAuthorization();
   const navigate = useNavigate();
   const { t } = useTranslation();
 

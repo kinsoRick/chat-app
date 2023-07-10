@@ -1,7 +1,6 @@
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
@@ -10,11 +9,10 @@ import { toast } from 'react-toastify';
 import { actions as modalsActions } from '../../store/modalsSlice';
 import { actions as channelsActions } from '../../store/channelsSlice';
 
-import SocketContext from '../../contexts/SocketContext';
+import socket from '../../socket';
 
 const AddForm = () => {
   const { t } = useTranslation();
-  const socket = useContext(SocketContext);
   const dispatch = useDispatch();
 
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))

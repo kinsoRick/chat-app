@@ -1,7 +1,6 @@
 import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
-import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,12 +9,11 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { actions as modalsActions } from '../../store/modalsSlice';
-import SocketContext from '../../contexts/SocketContext';
+import socket from '../../socket';
 
 const RenameForm = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const socket = useContext(SocketContext);
 
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))
     .map((channel) => channel.name);

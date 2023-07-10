@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Formik, Field, Form } from 'formik';
@@ -6,11 +5,11 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import './index.scss';
-import AuthContext from '../../../contexts/AuthContext';
+import useAuthorization from '../../../hooks/useAuthorization';
 
 const RegisterForm = () => {
   const { t } = useTranslation();
-  const { setToken, setUsername } = useContext(AuthContext);
+  const { setToken, setUsername } = useAuthorization();
   const navigate = useNavigate();
 
   const registerSchema = Yup.object().shape({
