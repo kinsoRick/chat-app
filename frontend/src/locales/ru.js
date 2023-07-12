@@ -30,6 +30,7 @@ const ru = {
     message_many: '{{ count }} сообщений',
     errorType: 'От 3 до 20 символов',
     channelCreated: 'Канал создан',
+    addChannel: 'Добавить канал',
     channelRemoved: 'Канал удалён',
     channelRenamed: 'Канал переименован',
     loginFailed: 'Неверные имя пользователя или пароль',

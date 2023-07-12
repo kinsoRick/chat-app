@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { useTranslation } from 'react-i18next';
 import AddForm from '../Forms/AddForm';
 import Modal from '../Modal';
 
@@ -9,6 +9,7 @@ import { actions as modalsActions } from '../../store/modalsSlice';
 
 const ServerHeader = ({ children }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const currentModal = useSelector((state) => state.modals.currentModal);
   const isAddModal = currentModal === 'addModal';
@@ -28,7 +29,7 @@ const ServerHeader = ({ children }) => {
 
       {/* Modal created in Portal */}
       {isAddModal && (
-        <Modal headerName="Добавить канал" name="addModal">
+        <Modal headerName={t('addChannel')} name="addModal">
           <AddForm />
         </Modal>
       )}

@@ -18,13 +18,19 @@ const Home = () => {
   const { token } = useAuthorization();
 
   const [activeDropdown, setActiveDropdown] = useState('');
+  const status = useSelector((state) => state.channels.status);
 
   useEffect(() => {
-    dispatch(getData(token));
-  }, [dispatch, navigate, token]);
+    if (status === 'error') {
+      navigate('/login');
+    }
+    if (status === 'idle') {
+      dispatch(getData(token));
+    }
+  }, [dispatch, navigate, status, token]);
 
   const channels = Object.values(useSelector((state) => state.channels.entities));
-  const channelsLoaded = useSelector((state) => state.channels.status) === 'fulfilled';
+  const channelsLoaded = (status === 'fulfilled');
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const currentChannel = useMemo(

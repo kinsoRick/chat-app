@@ -40,8 +40,12 @@ const AddForm = () => {
       }}
       validationSchema={renameSchema}
       onSubmit={async (values, { resetForm }) => {
-        await newServer(values);
-        resetForm();
+        try {
+          await newServer(values);
+          resetForm();
+        } catch (error) {
+          throw new Error(`ADDFORM: ${error.message}`);
+        }
       }}
     >
       <Form className="server-form">

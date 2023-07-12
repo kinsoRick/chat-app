@@ -36,8 +36,12 @@ const RenameForm = ({ channelId }) => {
       }}
       validationSchema={renameSchema}
       onSubmit={async (values, { resetForm }) => {
-        await renameServer(values);
-        resetForm();
+        try {
+          await renameServer(values);
+          resetForm();
+        } catch (error) {
+          throw new Error(`RENAMEFORM: ${error.message}`);
+        }
       }}
     >
       <Form className="server-form">

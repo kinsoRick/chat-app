@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import getData from '../actions/getData';
@@ -32,6 +31,9 @@ const channelsSlice = createSlice({
     setCurrentChannel: (state, { payload }) => {
       state.currentChannelId = payload;
     },
+    setStatus: (state, { payload }) => {
+      state.status = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,11 +46,8 @@ const channelsSlice = createSlice({
         state.currentChannelId = currentChannelId;
         state.status = 'fulfilled';
       })
-      .addCase(getData.pending, (state) => {
-        state.status = 'idle';
-      })
-      .addCase(getData.rejected, (state, { payload }) => {
-        if (payload === 401) location.pathname = '/login';
+      .addCase(getData.rejected, (state) => {
+        state.status = 'error';
       });
   },
 });
