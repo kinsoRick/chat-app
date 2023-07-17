@@ -9,16 +9,17 @@ import dropdownIcon from '../assets/dropdown.svg';
 import RenameForm from './Forms/RenameForm';
 
 import { actions as modalsActions } from '../store/modalsSlice';
-import socket from '../socket';
+import useSocket from '../hooks/useSocket';
 
 const Dropdown = ({ onClick, channelId, show }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { removeChannnel } = useSocket();
 
   const dropdownClasses = cn('dropdown', { visible: show });
 
   const deleteServer = () => {
-    socket.removeChannnel(channelId, ({ status }) => {
+    removeChannnel(channelId, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRemoved'));
     });
     dispatch(modalsActions.setCurrentModal('removeModal'));

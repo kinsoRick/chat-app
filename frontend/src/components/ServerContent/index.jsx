@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import MessageInput from './MessageInput';
 import MessageListener from './MessageListener';
 
-import socket from '../../socket';
 import useAuthorization from '../../hooks/useAuthorization';
+import useSocket from '../../hooks/useSocket';
 
 const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { sendMessage } = useSocket();
 
   const { setToken, setUsername, username } = useAuthorization();
   const logout = () => {
@@ -20,7 +21,7 @@ const ServerContent = ({ currentChannel: { id, name } }) => {
     navigate('/login');
   };
 
-  const sendMessage = ({ message }) => {
+  const handleMessage = ({ message }) => {
     if (message === '') return;
 
     const payload = {
@@ -28,7 +29,7 @@ const ServerContent = ({ currentChannel: { id, name } }) => {
       body: message,
       channelId: id,
     };
-    socket.emit('newMessage', payload);
+    sendMessage(payload);
   };
 
   const messages = useSelector((state) => state.messages.entities);
@@ -46,7 +47,7 @@ const ServerContent = ({ currentChannel: { id, name } }) => {
         </button>
       </div>
       <MessageListener channelId={id} />
-      <MessageInput onSubmit={(message) => sendMessage(message)} />
+      <MessageInput onSubmit={(message) => handleMessage(message)} />
     </main>
   );
 };

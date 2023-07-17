@@ -9,11 +9,12 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { actions as modalsActions } from '../../store/modalsSlice';
-import socket from '../../socket';
+import useSocket from '../../hooks/useSocket';
 
 const RenameForm = ({ channelId }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { renameChannel } = useSocket();
 
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))
     .map((channel) => channel.name);
@@ -23,7 +24,7 @@ const RenameForm = ({ channelId }) => {
   });
 
   const renameServer = async ({ serverRename }) => {
-    socket.renameChannel(channelId, serverRename, ({ status }) => {
+    renameChannel(channelId, serverRename, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRenamed'));
     });
     dispatch(modalsActions.setCurrentModal('renameModal'));

@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 
 import { actions as modalsActions } from '../../store/modalsSlice';
 import { actions as channelsActions } from '../../store/channelsSlice';
-
-import socket from '../../socket';
+import useSocket from '../../hooks/useSocket';
 
 const AddForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { addChannel } = useSocket();
 
   const channelsNames = Object.values(useSelector((state) => state.channels.entities))
     .map((channel) => channel.name);
@@ -23,7 +23,7 @@ const AddForm = () => {
   });
 
   const newServer = async ({ serverName }) => {
-    socket.addChannel(serverName, ({ status, data }) => {
+    addChannel(serverName, ({ status, data }) => {
       if (status === 'ok') {
         toast.success(t('channelCreated'));
         dispatch(channelsActions.addChannel(data));

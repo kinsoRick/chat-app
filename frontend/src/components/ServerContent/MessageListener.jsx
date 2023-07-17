@@ -7,44 +7,45 @@ import { actions as channelsActions } from '../../store/channelsSlice';
 import { actions as messagesActions } from '../../store/messagesSlice';
 
 import Message from './Message';
-import socket from '../../socket';
+import useSocket from '../../hooks/useSocket';
 
 const MessageListener = ({ channelId }) => {
   const dispatch = useDispatch();
+  const { on, off } = useSocket();
 
   useEffect(() => {
     const baseChannelId = 1;
 
-    socket.on('newMessage', (payload) => {
+    on('newMessage', (payload) => {
       if (payload !== null) {
         dispatch(messagesActions.addMessage(payload));
       }
     });
 
-    socket.on('newChannel', (payload) => {
+    on('newChannel', (payload) => {
       if (payload !== null) {
         dispatch(channelsActions.addChannel(payload));
       }
     });
 
-    socket.on('removeChannel', ({ id }) => {
+    on('removeChannel', ({ id }) => {
       if (id === channelId) {
         dispatch(channelsActions.setCurrentChannel(baseChannelId));
       }
       dispatch(channelsActions.removeChannel(id));
     });
 
-    socket.on('renameChannel', (payload) => {
+    on('renameChannel', (payload) => {
       dispatch(channelsActions.updateChannel(payload));
     });
 
     return () => {
-      socket.off('newMessage');
-      socket.off('newChannel');
-      socket.off('removeChannel');
-      socket.off('renameChannel');
+      off('newMessage');
+      off('newChannel');
+      off('removeChannel');
+      off('renameChannel');
     };
-  }, [dispatch, channelId]);
+  }, [dispatch, channelId, on, off]);
 
   const messages = useSelector((state) => state.messages.entities);
   const filteredMessages = Object.values(messages)
