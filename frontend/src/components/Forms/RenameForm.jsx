@@ -23,7 +23,7 @@ const RenameForm = ({ channelId }) => {
   });
 
   const renameServer = async ({ serverRename }) => {
-    socket.emit('renameChannel', { id: channelId, name: serverRename }, ({ status }) => {
+    socket.renameChannel(channelId, serverRename, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRenamed'));
     });
     dispatch(modalsActions.setCurrentModal('renameModal'));

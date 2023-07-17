@@ -18,7 +18,7 @@ const Dropdown = ({ onClick, channelId, show }) => {
   const dropdownClasses = cn('dropdown', { visible: show });
 
   const deleteServer = () => {
-    socket.emit('removeChannel', { id: channelId }, ({ status }) => {
+    socket.removeChannnel(channelId, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRemoved'));
     });
     dispatch(modalsActions.setCurrentModal('removeModal'));

@@ -23,10 +23,12 @@ const AddForm = () => {
   });
 
   const newServer = async ({ serverName }) => {
-    socket.emit('newChannel', { name: serverName }, ({ status, data }) => {
+    socket.addChannel(serverName, ({ status, data }) => {
       if (status === 'ok') {
         toast.success(t('channelCreated'));
         dispatch(channelsActions.addChannel(data));
+        // Тут приходит ответ от сервера, который говорит о статусе окей при создании сервера
+        // значит и проверять пользователя на владение канала необязательно
         dispatch(channelsActions.setCurrentChannel(data.id));
       }
     });

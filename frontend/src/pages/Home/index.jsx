@@ -11,23 +11,27 @@ import getData from '../../store/actions/getData';
 import './index.scss';
 import useAuthorization from '../../hooks/useAuthorization';
 
+import { actions as channelsActions } from '../../store/channelsSlice';
+
 const Home = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useAuthorization();
+  const { token, setToken } = useAuthorization();
 
   const [activeDropdown, setActiveDropdown] = useState('');
   const status = useSelector((state) => state.channels.status);
+  const error = useSelector((state) => state.channels.error);
 
   useEffect(() => {
-    if (status === 'error') {
+    if (error === 401) {
       navigate('/login');
-    }
-    if (status === 'idle') {
+      setToken('');
+      dispatch(channelsActions.resetError());
+    } else if (status === 'idle') {
       dispatch(getData(token));
     }
-  }, [dispatch, navigate, status, token]);
+  }, [dispatch, navigate, status, token, setToken, error]);
 
   const channels = Object.values(useSelector((state) => state.channels.entities));
   const channelsLoaded = (status === 'fulfilled');

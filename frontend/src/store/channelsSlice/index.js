@@ -34,6 +34,9 @@ const channelsSlice = createSlice({
     setStatus: (state, { payload }) => {
       state.status = payload;
     },
+    resetError: (state) => {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -46,8 +49,9 @@ const channelsSlice = createSlice({
         state.currentChannelId = currentChannelId;
         state.status = 'fulfilled';
       })
-      .addCase(getData.rejected, (state) => {
+      .addCase(getData.rejected, (state, { payload }) => {
         state.status = 'error';
+        state.error = payload;
       });
   },
 });
