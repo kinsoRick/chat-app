@@ -27,8 +27,6 @@ const AddForm = () => {
       if (status === 'ok') {
         toast.success(t('channelCreated'));
         dispatch(channelsActions.addChannel(data));
-        // Тут приходит ответ от сервера, который говорит о статусе окей при создании сервера
-        // значит и проверять пользователя на владение канала необязательно
         dispatch(channelsActions.setCurrentChannel(data.id));
       }
     });
@@ -52,7 +50,7 @@ const AddForm = () => {
     >
       <Form className="server-form">
         <div className="floating-field" style={{ width: '100%' }}>
-          <Field className="server-name-input" id="serverName" name="serverName" placeholder={t('serverName')} />
+          <Field className="server-name-input" id="serverName" name="serverName" placeholder={t('serverName')} autoFocus />
           <label htmlFor="serverName">{t('serverName')}</label>
           <ErrorMessage name="serverName" component="div" className="input-error" />
         </div>

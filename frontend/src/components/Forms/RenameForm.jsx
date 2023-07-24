@@ -47,7 +47,7 @@ const RenameForm = ({ channelId }) => {
     >
       <Form className="server-form">
         <div className="floating-field" style={{ width: '100%' }}>
-          <Field className="server-name-input" id="serverRename" name="serverRename" placeholder={t('serverRename')} />
+          <Field className="server-name-input" id="serverRename" name="serverRename" placeholder={t('serverRename')} autoFocus />
           <label htmlFor="serverRename">{t('serverRename')}</label>
           <ErrorMessage name="serverRename" component="div" className="input-error" />
         </div>
