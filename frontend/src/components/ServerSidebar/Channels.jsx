@@ -31,6 +31,7 @@ const Channels = ({
             {removable
             && (
               <Dropdown
+                channelName={name}
                 channelId={id}
                 show={activeDropdown === name}
                 onClick={() => toggleDropdown(name)}

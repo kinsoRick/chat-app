@@ -44,9 +44,12 @@
       font-size: 14px;
       line-height: 17px;
       overflow-wrap: anywhere;
+      display: flex;
+      align-items: center;
 
       &::before {
-        content: '# ';
+        content: '#';
+        margin-right: 5px;
       }
     }
 

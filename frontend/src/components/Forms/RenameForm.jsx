@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import { actions as modalsActions } from '../../store/modalsSlice';
 import useSocket from '../../hooks/useSocket';
 
-const RenameForm = ({ channelId }) => {
+const RenameForm = ({ channelId, channelName }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { renameChannel } = useSocket();
@@ -33,7 +33,7 @@ const RenameForm = ({ channelId }) => {
   return (
     <Formik
       initialValues={{
-        serverRename: '',
+        serverRename: channelName,
       }}
       validationSchema={renameSchema}
       onSubmit={async (values, { resetForm }) => {
@@ -47,7 +47,7 @@ const RenameForm = ({ channelId }) => {
     >
       <Form className="server-form">
         <div className="floating-field" style={{ width: '100%' }}>
-          <Field className="server-name-input" id="serverRename" name="serverRename" placeholder={t('serverRename')} autoFocus />
+          <Field className="server-name-input" id="serverRename" name="serverRename" onFocus={(e) => e.target.select()} placeholder={t('serverRename')} autoFocus />
           <label htmlFor="serverRename">{t('serverRename')}</label>
           <ErrorMessage name="serverRename" component="div" className="input-error" />
         </div>
@@ -68,6 +68,7 @@ const RenameForm = ({ channelId }) => {
 
 RenameForm.propTypes = {
   channelId: PropTypes.number.isRequired,
+  channelName: PropTypes.string.isRequired,
 };
 
 export default RenameForm;

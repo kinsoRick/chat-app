@@ -11,7 +11,9 @@ import RenameForm from './Forms/RenameForm';
 import { actions as modalsActions } from '../store/modalsSlice';
 import useSocket from '../hooks/useSocket';
 
-const Dropdown = ({ onClick, channelId, show }) => {
+const Dropdown = ({
+  onClick, channelId, show, channelName,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { removeChannnel } = useSocket();
@@ -52,6 +54,7 @@ const Dropdown = ({ onClick, channelId, show }) => {
         <Modal headerName="Переименовать канал" name="renameModal">
           <RenameForm
             channelId={channelId}
+            channelName={channelName}
           />
         </Modal>
       )}
@@ -85,6 +88,7 @@ const Dropdown = ({ onClick, channelId, show }) => {
 
 Dropdown.propTypes = {
   channelId: PropTypes.number.isRequired,
+  channelName: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
 };
