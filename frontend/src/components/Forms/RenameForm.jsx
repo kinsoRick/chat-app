@@ -27,7 +27,7 @@ const RenameForm = ({ channelId, channelName }) => {
     renameChannel(channelId, serverRename, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRenamed'));
     });
-    dispatch(modalsActions.setCurrentModal('renameModal'));
+    dispatch(modalsActions.toggleModal('renameModal'));
   };
 
   return (
@@ -57,7 +57,7 @@ const RenameForm = ({ channelId, channelName }) => {
         <button
           type="button"
           className="btn-cancel"
-          onClick={() => dispatch(modalsActions.setCurrentModal('renameModal'))}
+          onClick={() => dispatch(modalsActions.toggleModal('renameModal'))}
         >
           {t('cancel')}
         </button>

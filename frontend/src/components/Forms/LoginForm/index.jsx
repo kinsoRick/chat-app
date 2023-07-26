@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-
+import { home } from '../../../routes';
 import './index.scss';
 import useAuthorization from '../../../hooks/useAuthorization';
 
@@ -36,13 +36,14 @@ const LoginForm = () => {
           const res = await axios.post('/api/v1/login', values);
           setToken(res.data.token);
           setUsername(res.data.username);
-          navigate('/');
+          navigate(home);
           resetForm();
         } catch (err) {
           const errorCode = err.response?.data?.statusCode;
           switch (errorCode) {
             case 401:
               setFieldError('username', t('loginFailed'));
+              setToken('');
               break;
             default:
               throw new Error(`Unexpected error: ${err.message}`);

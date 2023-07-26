@@ -24,12 +24,12 @@ const Dropdown = ({
     removeChannnel(channelId, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRemoved'));
     });
-    dispatch(modalsActions.setCurrentModal('removeModal'));
+    dispatch(modalsActions.toggleModal('removeModal'));
   };
 
   const currentModal = useSelector((state) => state.modals.currentModal);
-  const toggleDeleteModal = () => dispatch(modalsActions.setCurrentModal('removeModal'));
-  const toggleRenameModal = () => dispatch(modalsActions.setCurrentModal('renameModal'));
+  const toggleDeleteModal = () => dispatch(modalsActions.toggleModal('removeModal'));
+  const toggleRenameModal = () => dispatch(modalsActions.toggleModal('renameModal'));
   const isRenameModal = currentModal === 'renameModal';
   const isRemoveModal = currentModal === 'removeModal';
 
@@ -75,7 +75,7 @@ const Dropdown = ({
           <button
             type="button"
             className="btn-success"
-            onClick={() => dispatch(modalsActions.setCurrentModal('removeModal'))}
+            onClick={() => dispatch(modalsActions.toggleModal('removeModal'))}
             style={{ margin: '0 10px 10px' }}
           >
             {t('cancel')}

@@ -9,7 +9,7 @@ const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    setCurrentModal: (state, { payload }) => {
+    toggleModal: (state, { payload }) => {
       state.currentModal = (state.currentModal === payload) ? '' : payload;
     },
   },

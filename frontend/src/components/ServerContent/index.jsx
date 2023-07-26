@@ -9,6 +9,8 @@ import MessageListener from './MessageListener';
 import useAuthorization from '../../hooks/useAuthorization';
 import useSocket from '../../hooks/useSocket';
 
+import { login } from '../../routes';
+
 const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const ServerContent = ({ currentChannel: { id, name } }) => {
   const logout = () => {
     setToken('');
     setUsername('');
-    navigate('/login');
+    navigate(login);
   };
 
   const handleMessage = ({ message }) => {

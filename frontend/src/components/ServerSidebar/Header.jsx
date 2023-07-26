@@ -19,7 +19,7 @@ const ServerHeader = ({ children }) => {
       <h2>{children}</h2>
       <button
         type="button"
-        onClick={() => dispatch(modalsActions.setCurrentModal('addModal'))}
+        onClick={() => dispatch(modalsActions.toggleModal('addModal'))}
         className="ml-auto hide-btn"
         data-modal
       >

@@ -19,7 +19,7 @@ const Modal = ({
 
   const controlModal = (event) => {
     if ('modal' in event.nativeEvent.target.dataset) {
-      dispatch(modalsActions.setCurrentModal(name));
+      dispatch(modalsActions.toggleModal(name));
     }
   };
 

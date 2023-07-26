@@ -22,7 +22,7 @@ const AddForm = () => {
     serverName: Yup.string().notOneOf(channelsNames, t('unique')),
   });
 
-  const newServer = async ({ serverName }) => {
+  const newServer = ({ serverName }) => {
     addChannel(serverName, ({ status, data }) => {
       if (status === 'ok') {
         toast.success(t('channelCreated'));
@@ -30,7 +30,7 @@ const AddForm = () => {
         dispatch(channelsActions.setCurrentChannel(data.id));
       }
     });
-    dispatch(modalsActions.setCurrentModal('addModal'));
+    dispatch(modalsActions.toggleModal('addModal'));
   };
 
   return (
@@ -61,7 +61,7 @@ const AddForm = () => {
         <button
           type="button"
           className="btn-cancel"
-          onClick={() => dispatch(modalsActions.setCurrentModal('addModal'))}
+          onClick={() => dispatch(modalsActions.toggleModal('addModal'))}
         >
           {t('cancel')}
         </button>
