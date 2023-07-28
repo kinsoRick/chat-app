@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 
 import MessageInput from './MessageInput';
 import MessageListener from './MessageListener';
@@ -9,19 +8,16 @@ import MessageListener from './MessageListener';
 import useAuthorization from '../../hooks/useAuthorization';
 import useSocket from '../../hooks/useSocket';
 
-import { login } from '../../routes';
-
+import { actions as channelsActions } from '../../store/channelsSlice'
 const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { sendMessage } = useSocket();
+  const dispatch = useDispatch();
 
-  const { setToken, setUsername, username } = useAuthorization();
-  const logout = () => {
-    setToken('');
-    setUsername('');
-    navigate(login);
-  };
+  const { username } = useAuthorization();
+
+  // Костыль
+  const logout = () => dispatch(channelsActions.setStatus('logout'))
 
   const handleMessage = ({ message }) => {
     if (message === '') return;

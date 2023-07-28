@@ -5,4 +5,3 @@ const routes = {
 };
 
 export const { login, home, register } = routes;
-export default routes;

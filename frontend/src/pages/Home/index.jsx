@@ -4,8 +4,8 @@ import {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import ServerSidebar, { Channels, ServerHeader } from '../../components/ServerSidebar';
-import ServerContent from '../../components/ServerContent';
+import Sidebar, { Channels, Header } from '../../components/Sidebar';
+import Content from '../../components/Content';
 import './index.scss';
 
 const Home = () => {
@@ -29,18 +29,18 @@ const Home = () => {
 
   return (
     <section className="home-page">
-      <ServerSidebar>
-        <ServerHeader>{t('chat')}</ServerHeader>
+      <Sidebar>
+        <Header>{t('chat')}</Header>
         <Channels
           channels={channels}
           currentChannelId={currentChannelId}
           activeDropdown={activeDropdown}
           toggleDropdown={toggleDropdown}
         />
-      </ServerSidebar>
+      </Sidebar>
 
       {channelsLoaded && (
-        <ServerContent
+        <Content
           currentChannel={currentChannel}
         />
       )}
