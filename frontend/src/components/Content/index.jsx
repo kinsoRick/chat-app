@@ -8,7 +8,8 @@ import MessageListener from './MessageListener';
 import useAuthorization from '../../hooks/useAuthorization';
 import useSocket from '../../hooks/useSocket';
 
-import { actions as channelsActions } from '../../store/channelsSlice'
+import { actions as channelsActions } from '../../store/channelsSlice';
+
 const ServerContent = ({ currentChannel: { id, name } }) => {
   const { t } = useTranslation();
   const { sendMessage } = useSocket();
@@ -17,7 +18,7 @@ const ServerContent = ({ currentChannel: { id, name } }) => {
   const { username } = useAuthorization();
 
   // Костыль
-  const logout = () => dispatch(channelsActions.setStatus('logout'))
+  const logout = () => dispatch(channelsActions.setStatus('logout'));
 
   const handleMessage = ({ message }) => {
     if (message === '') return;

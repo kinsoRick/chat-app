@@ -23,6 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+ased
+
 /test-results/
 /playwright-report/
 /playwright/.cache/
