@@ -13,7 +13,7 @@ const ru = {
     usernameRegister: 'Имя пользователя',
     retypePassword: 'Подтвердите пароль',
     serverName: 'Имя канала',
-    serverRename: 'Имя канала',
+    channelRename: 'Имя канала',
     register: 'Регистрация',
     notAccount: 'Нет аккаунта?',
     login: 'Войти',
