@@ -9,13 +9,13 @@ import { actions as messagesActions } from '../../store/messagesSlice';
 import Message from './Message';
 import useSocket from '../../hooks/useSocket';
 
+import { baseChannelId } from '../../constants';
+
 const MessageListener = ({ channelId }) => {
   const dispatch = useDispatch();
   const { on, off } = useSocket();
 
   useEffect(() => {
-    const baseChannelId = 1;
-
     on('newMessage', (payload) => {
       if (payload !== null) {
         dispatch(messagesActions.addMessage(payload));
@@ -45,6 +45,7 @@ const MessageListener = ({ channelId }) => {
       off('removeChannel');
       off('renameChannel');
     };
+    // Линтер ругается на недостающий dependency
   }, [dispatch, channelId, on, off]);
 
   const messages = useSelector((state) => state.messages.entities);

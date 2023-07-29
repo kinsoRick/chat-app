@@ -20,7 +20,7 @@ const Dropdown = ({
 
   const dropdownClasses = cn('dropdown', { visible: show });
 
-  const deleteServer = () => {
+  const deleteChannel = () => {
     removeChannnel(channelId, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRemoved'));
     });
@@ -66,7 +66,7 @@ const Dropdown = ({
           <button
             type="button"
             className="btn-danger"
-            onClick={deleteServer}
+            onClick={deleteChannel}
             style={{ margin: '0 10px 10px' }}
           >
             {t('delete')}

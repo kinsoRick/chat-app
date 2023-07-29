@@ -20,11 +20,11 @@ const RenameForm = ({ channelId, channelName }) => {
     .map((channel) => channel.name);
 
   const renameSchema = Yup.object().shape({
-    serverRename: Yup.string().notOneOf(channelsNames, t('unique')),
+    channelRename: Yup.string().notOneOf(channelsNames, t('unique')),
   });
 
-  const renameServer = async ({ serverRename }) => {
-    renameChannel(channelId, serverRename, ({ status }) => {
+  const rename = async ({ channelRename }) => {
+    renameChannel(channelId, channelRename, ({ status }) => {
       if (status === 'ok') toast.success(t('channelRenamed'));
     });
     dispatch(modalsActions.toggleModal('renameModal'));
@@ -33,23 +33,23 @@ const RenameForm = ({ channelId, channelName }) => {
   return (
     <Formik
       initialValues={{
-        serverRename: channelName,
+        channelRename: channelName,
       }}
       validationSchema={renameSchema}
       onSubmit={async (values, { resetForm }) => {
         try {
-          await renameServer(values);
+          await rename(values);
           resetForm();
         } catch (error) {
           throw new Error(`RENAMEFORM: ${error.message}`);
         }
       }}
     >
-      <Form className="server-form">
+      <Form className="channel-form">
         <div className="floating-field" style={{ width: '100%' }}>
-          <Field className="server-name-input" id="serverRename" name="serverRename" onFocus={(e) => e.target.select()} placeholder={t('serverRename')} autoFocus />
-          <label htmlFor="serverRename">{t('serverRename')}</label>
-          <ErrorMessage name="serverRename" component="div" className="input-error" />
+          <Field className="channel-name-input" id="channelRename" name="channelRename" onFocus={(e) => e.target.select()} placeholder={t('channelRename')} autoFocus />
+          <label htmlFor="channelRename">{t('channelRename')}</label>
+          <ErrorMessage name="channelRename" component="div" className="input-error" />
         </div>
 
         <br />

@@ -22,7 +22,7 @@ const AddForm = () => {
     serverName: Yup.string().notOneOf(channelsNames, t('unique')),
   });
 
-  const newServer = ({ serverName }) => {
+  const newChannel = ({ serverName }) => {
     addChannel(serverName, ({ status, data }) => {
       if (status === 'ok') {
         toast.success(t('channelCreated'));
@@ -30,6 +30,11 @@ const AddForm = () => {
         dispatch(channelsActions.setCurrentChannel(data.id));
       }
     });
+    // WONTFIX: В каждом из экшенов открытия и закрытия придётся сравнивать
+    // какое модальное окно открыто на данный момент с переданным окном
+    // Если где-то появится баг того, что вызывается ещё не нужное окно
+    // его тяжелее будет отследить так как закрытие и открытие может происходить
+    // в разных частях кода
     dispatch(modalsActions.toggleModal('addModal'));
   };
 
@@ -41,7 +46,7 @@ const AddForm = () => {
       validationSchema={renameSchema}
       onSubmit={async (values, { resetForm }) => {
         try {
-          await newServer(values);
+          await newChannel(values);
           resetForm();
         } catch (error) {
           throw new Error(`ADDFORM: ${error.message}`);

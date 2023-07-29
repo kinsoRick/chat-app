@@ -1,4 +1,4 @@
-import './serverSidebar.scss';
+import './sidebar.scss';
 import PropTypes from 'prop-types';
 
 import Header from './Header';

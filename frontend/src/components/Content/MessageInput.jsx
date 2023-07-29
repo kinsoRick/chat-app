@@ -13,10 +13,10 @@ const MessageInput = ({ onSubmit }) => {
     const newVal = { message: sanitizedMessage };
     try {
       await onSubmit(newVal);
+      resetForm();
     } catch (error) {
       throw new Error(`MESSAGEINPUT: ${error.message}`);
     }
-    resetForm();
   };
 
   return (
